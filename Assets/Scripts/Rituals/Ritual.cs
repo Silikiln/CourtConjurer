@@ -4,21 +4,21 @@ using System.Collections;
 public abstract class Ritual : MonoBehaviour {
     protected static Ritual currentRitual;
 
-    public static void CloseCurrentRitual() { currentRitual.CloseRitual(); }
+    public static void CloseCurrentRitual() { if (currentRitual != null) currentRitual.CloseRitual(); }
 
     protected bool canSubmit = false;
 
     public virtual void ShowRitual()
     {
         currentRitual = this;
-        DeskObjectManager.SetDeskObjectsActive(false);
+        GameManager.SetDeskObjectsActive(false);
         gameObject.SetActive(true);
     }
 
     protected virtual void CloseRitual()
     {
         gameObject.SetActive(false);
-        DeskObjectManager.SetDeskObjectsActive(true);
+        GameManager.SetDeskObjectsActive(true);
         currentRitual = null;
     }
 

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class Order {
-    public static List<Order> CompletedOrders = new List<Order>();
-    public static Order CurrentOrder;
+    public static Order CurrentOrder { get; private set; }
     public static List<Component> SubmittedComponents;
 
     public static void GenerateOrder()
@@ -22,13 +21,8 @@ public class Order {
     public static void CompleteOrder(Creature c)
     {
         CurrentOrder.CompletedWith = c;
-        CompletedOrders.Add(CurrentOrder);
+        GameManager.OrderCompleted(CurrentOrder);
         SubmittedComponents.Clear();
-        GenerateOrder();
-
-        Debug.Log("Order complete (" + CompletedOrders.Count + ")");
-
-        Ritual.CloseCurrentRitual();
     }
 
     public string RequiredAttribute { get; private set; }
