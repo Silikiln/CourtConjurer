@@ -11,21 +11,21 @@ public abstract class Ritual : MonoBehaviour {
     public virtual void ShowRitual()
     {
         currentRitual = this;
-        GameManager.SetDeskObjectsActive(false);
+        GameManager.desk.SetActive(false);
         gameObject.SetActive(true);
     }
 
     protected virtual void CloseRitual()
     {
         gameObject.SetActive(false);
-        GameManager.SetDeskObjectsActive(true);
+        GameManager.desk.SetActive(true);
         currentRitual = null;
     }
 
     protected virtual void OnSubmit()
     {
         canSubmit = false;
-        Order.SubmitComponent(GetCurrentComponent());
+        Order.SubmittedComponents.Add(GetCurrentComponent());
     }
 
     protected void SetChildrenActive(bool active)

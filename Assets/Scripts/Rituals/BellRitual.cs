@@ -6,9 +6,9 @@ public class BellRitual : Ritual
 {
     const float TIME_PER_SEGMENT = 6;
     const float ACCEPTABLE_NOTE_DISTANCE = .3f;
-    private float[] NOTE_Y_VALUES = new float[] { 1.5f, .5f, -.5f, -1.5f };
-    private KeyCode[] INPUTS_TO_CHECK = new KeyCode[] { KeyCode.Q, KeyCode.W, KeyCode.E, KeyCode.R, KeyCode.T };
-    private string[] KEY_TEXT_VALUES = new string[] { "A", "B", "C", "D", "E" };
+    private float[] NOTE_Y_VALUES = { 1.5f, .5f, -.5f, -1.5f };
+    private KeyCode[] INPUTS_TO_CHECK = { KeyCode.Q, KeyCode.W, KeyCode.E, KeyCode.R, KeyCode.T };
+    private string[] KEY_TEXT_VALUES = { "A", "B", "C", "D", "E" };
 
     public Vector3 meterStartPosition;
     public Vector3 meterEndPosition;

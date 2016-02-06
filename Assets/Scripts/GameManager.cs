@@ -2,90 +2,135 @@
 using System.Collections.Generic;
 using System.Collections;
 
+/// <summary>
+/// Handles the main game logic for timing and rounds
+/// </summary>
 public class GameManager : MonoBehaviour {
+    /// <summary>
+    /// The GameObject that represents the entirety of the desk
+    /// </summary>
+    public static GameObject desk;
 
-    private static GameObject staticDesk;
+    /// <summary>
+    /// All of the orders the player has completed for this round
+    /// </summary>
     public static List<Order> completedOrders = new List<Order>();
 
-    //public Objects
-    public GameObject desk;
+    /// <summary>
+    /// Complete an order
+    /// </summary>
+    /// <param name="completedOrder">The order that was completed</param>
+    public static void CompleteOrder(Order completedOrder)
+    {
+        completedOrders.Add(completedOrder);
+
+        // Generate a new order
+        Order.GenerateOrder();
+
+        // Close the current ritual (ViewOrder)
+        Ritual.CloseCurrentRitual();
+    }
+
+    // Parent GameObjects
+    public GameObject assignedDesk;
     public GameObject resultDisplay;
     public GameObject timeDisplay;
 
-    //timer variables in seconds
-    public float roundDuration = 300;
+    // Timer variables in seconds
     public float countDownDuration = 3;
-
-    private TextMesh textTimeCaption, textTimeCount, textOrdersCompleted;
-
+    public float roundDuration = 300;
     private float roundTimer;
 
-    private bool endGameFlag;
+    // TextMesh variables for displaying information
+    private TextMesh textTimeCaption, textTimeCount, textOrdersCompleted;
+
+    // Flags for current game state
+    private bool isRoundOver;
     private bool isCountingDown;
     private bool isPaused;
 
+    // Initialize the manager
     void Start()
     {
+        // Load the creatures from external XML file
         Creature.LoadCreatures();
-        staticDesk = desk;
 
+        // Set the desk object as a static object so it can be hidden globally
+        desk = assignedDesk;
+
+        // Assign the TextMesh variables from the parents
         textTimeCaption = timeDisplay.transform.FindChild("Caption").GetComponent<TextMesh>();
         textTimeCount = timeDisplay.transform.FindChild("Count").GetComponent<TextMesh>();
         textOrdersCompleted = resultDisplay.transform.FindChild("Orders Completed").GetComponent<TextMesh>();
 
-        this.LoadGame();
+        LoadGame();
     }
 
-    public static void SetDeskObjectsActive(bool active)
-    {
-        staticDesk.SetActive(active);
-    }
+    
 
     // Update is called once per frame
     void Update()
     {
+        // Nothing to do if counting down
         if (isCountingDown)
             return;
 
+        // Check for pause
         // TODO
         // Add check for if in ritual or not before doing this
         if (Input.GetKeyDown(KeyCode.Escape)) { }
             //TogglePause();
 
+        // Actions for when the game is paused
         if (isPaused)
         {
             return;
         }
 
-        if (endGameFlag)
+        // Actions for when the game is in the result screen
+        if (isRoundOver)
         {
             if (Input.GetKeyDown(KeyCode.R))
                 LoadGame();
             return;
         }
 
+        // Update the time spent in this round
         roundTimer += Time.deltaTime;
         textTimeCount.text = string.Format("{0:0.0}s", roundTimer);
         
+        // Check if round has ended
         if (roundTimer >= roundDuration)
             EndGame();
     }
 
+    /// <summary>
+    /// Logic for each time the player enters or exits the pause screen
+    /// </summary>
     void TogglePause() {
         isPaused = !isPaused;
     }
 
+    /// <summary>
+    /// Logic for when a round ends
+    /// </summary>
     void EndGame()
     {
         Ritual.CloseCurrentRitual();
-        endGameFlag = true;
-        SetDeskObjectsActive(false);
+        desk.SetActive(false);
         timeDisplay.SetActive(false);
-        resultDisplay.SetActive(true);
 
+        isRoundOver = true;
         textOrdersCompleted.text = completedOrders.Count.ToString();
+        resultDisplay.SetActive(true);
     }
 
+    /// <summary>
+    /// Fade text out
+    /// </summary>
+    /// <param name="textMesh">The text mesh to fade</param>
+    /// <param name="fadeDuration">The duration of the fade</param>
+    /// <returns></returns>
     private IEnumerator TextFade(TextMesh textMesh, float fadeDuration)
     {
         float fadeTime = fadeDuration;
@@ -105,12 +150,17 @@ public class GameManager : MonoBehaviour {
         textMesh.text = "";
     }
 
+    /// <summary>
+    /// Coroutine to start the countdown
+    /// </summary>
     private IEnumerator CountDown()
     {
+        isCountingDown = true;
         float countDownTimer = countDownDuration;
-        textTimeCaption.text = "Starting in: ";
 
+        textTimeCaption.text = "Starting in: ";
         textTimeCount.text = string.Format("{0:0.0}s", countDownTimer);
+        timeDisplay.SetActive(true);
         yield return null;
 
         while (countDownTimer > 0)
@@ -121,39 +171,27 @@ public class GameManager : MonoBehaviour {
             yield return null;
         }
 
-        //game starts, enable actions and set timer to 0
-        SetDeskObjectsActive(true);
+        // Game starting after this, initialize variables and reset timer
+        GameManager.desk.SetActive(true);
         isCountingDown = false;
         this.roundTimer = 0;
         textTimeCaption.text = "Time Elapsed: ";
     }
-
-    public static void OrderCompleted(Order completedOrder)
-    {
-        //update order variables
-        completedOrders.Add(completedOrder);
-
-        //generate a new order
-        Order.GenerateOrder();
-        Ritual.CloseCurrentRitual();
-    }
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
     public void LoadGame()
     {
-        //disable actions
-        GameManager.SetDeskObjectsActive(false);
+        // Disable desk and result displays
+        GameManager.desk.SetActive(false);
         resultDisplay.SetActive(false);
 
-        //reset variables
-        endGameFlag = false;
-        isCountingDown = true;
+        // Reset variables
+        isRoundOver = false;
         completedOrders = new List<Order>();
-
-        timeDisplay.SetActive(true);
-
         Order.GenerateOrder();
 
-        //start game countdown
         StartCoroutine(CountDown());
     }
 }

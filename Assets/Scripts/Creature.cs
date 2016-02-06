@@ -4,69 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 
+/// <summary>
+/// Data type to store information about a creature and how to summon it
+/// </summary>
 public class Creature
 {
     public static List<Creature> loadedCreatures;
     public static List<string> uniqueAttributes;
 
-    public string Title { get; private set; }
-    public string Type { get; private set; }
-
-    public List<string> Names = new List<string>();
-    public List<string> Attributes = new List<string>();
-    public List<Component> RequiredComponents = new List<Component>();
-
-    public bool fulfillsRequirements(List<Component> componentsToCheck)
-    {
-        if (RequiredComponents.Count > componentsToCheck.Count)
-            return false;
-
-        List<Component> copiedComponents = new List<Component>(componentsToCheck);
-        foreach (Component required in RequiredComponents)
-        {
-            bool match = false;
-            for (int i = 0; i < copiedComponents.Count; i++)
-                if (copiedComponents[i].MatchesComponent(required, Names))
-                {
-                    copiedComponents.RemoveAt(i);
-                    match = true;
-                    break;
-                }
-            if (!match) return false;
-        }
-
-        return true;
-    }
-
-    public static List<Creature> matchingCreatures(Component toCheck)
-    {
-        List<Creature> matchedCreatures = new List<Creature>();
-
-        foreach (Creature c in loadedCreatures)
-            foreach (Component otherComponent in c.RequiredComponents)
-                if (toCheck.MatchesComponent(otherComponent, c.Names))
-                {
-                    matchedCreatures.Add(c);
-                    break;
-                }
-
-        return matchedCreatures;
-    }
-
-    public static List<Creature> matchingCreatures(List<Component> componentsToCheck)
-    {
-        if (componentsToCheck.Count == 0)
-            return new List<Creature>();
-
-        List<Creature> matchedCreatures = matchingCreatures(componentsToCheck[0]);
-        componentsToCheck.RemoveAt(0);
-
-        foreach (Component component in componentsToCheck)
-            matchedCreatures.Intersect(matchingCreatures(component));
-
-        return matchedCreatures;
-    }
-
+    /// <summary>
+    /// Load the creatures saved in an external file
+    /// </summary>
     public static void LoadCreatures()
     {
         loadedCreatures = new List<Creature>();
@@ -145,6 +93,106 @@ public class Creature
                     }
             }
         }
+    }
+
+    /// <summary>
+    /// Find all of the creatures that have a component
+    /// </summary>
+    /// <param name="toCheck">The component to check</param>
+    /// <returns>A list of all of the creatures with that component</returns>
+    public static List<Creature> CreaturesWithComponent(Component toCheck)
+    {
+        List<Creature> matchedCreatures = new List<Creature>();
+
+        foreach (Creature c in loadedCreatures)
+            foreach (Component otherComponent in c.RequiredComponents)
+                // If the creature has the component, add it to the list
+                // Move to the next creature
+                if (toCheck.MatchesComponent(otherComponent, c.Names))
+                {
+                    matchedCreatures.Add(c);
+                    break;
+                }
+
+        return matchedCreatures;
+    }
+
+    /// <summary>
+    /// Find all of the creatures that have all of the provided components
+    /// </summary>
+    /// <param name="componentsToCheck">The components to check</param>
+    /// <returns>A list of all of the creatures with all of the components</returns>
+    public static List<Creature> CreaturesWithComponents(List<Component> componentsToCheck)
+    {
+        if (componentsToCheck.Count == 0)
+            return new List<Creature>();
+
+        List<Creature> matchedCreatures = CreaturesWithComponent(componentsToCheck[0]);
+        componentsToCheck.RemoveAt(0);
+
+        foreach (Component component in componentsToCheck)
+            matchedCreatures.Intersect(CreaturesWithComponent(component));
+
+        return matchedCreatures;
+    }
+
+    /// <summary>
+    /// The generic name of the creature
+    /// </summary>
+    public string Title { get; private set; }
+
+    /// <summary>
+    /// The type of the creature
+    /// </summary>
+    // TODO
+    // Replace with enum and have int in XML file
+    public string Type { get; private set; }
+
+    /// <summary>
+    /// The list of names from known creatures of this title.
+    /// Mostly used with demons exclusively
+    /// </summary>
+    public List<string> Names = new List<string>();
+
+    /// <summary>
+    /// The list of attributes this creature has
+    /// </summary>
+    public List<string> Attributes = new List<string>();
+
+    /// <summary>
+    /// The components required to summon this creature
+    /// </summary>
+    public List<Component> RequiredComponents = new List<Component>();
+
+    /// <summary>
+    /// Determines if the provided components can satisfy
+    /// the requirements for this creature
+    /// </summary>
+    /// <param name="componentsToCheck">The components to check</param>
+    /// <returns>
+    /// Whether this creature can be summoned using the
+    /// provided components
+    /// </returns>
+    public bool fulfillsRequirements(List<Component> componentsToCheck)
+    {
+        if (RequiredComponents.Count > componentsToCheck.Count)
+            return false;
+
+        // Copy the required components
+        List<Component> copiedComponents = new List<Component>(RequiredComponents);
+        foreach (Component toCheck in componentsToCheck)
+        {
+            for (int i = 0; i < copiedComponents.Count; i++)
+                if (toCheck.MatchesComponent(copiedComponents[i], Names))
+                {
+                    // Remove the matched required component from future checks
+                    copiedComponents.RemoveAt(i);
+                    break;
+                }
+        }
+
+        // Determine if all required components matched 
+        return copiedComponents.Count == 0;
     }
 
     public override string ToString()
