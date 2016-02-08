@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// Handles the logic for the order specific potion ritual
+/// </summary>
 public class PotionRitual : Ritual {
     private byte[] neededIngredients = new byte[0];
     private byte[] addedIngredients = new byte[12];
@@ -51,6 +54,9 @@ public class PotionRitual : Ritual {
         canSubmit = false;
     }
 
+    /// <summary>
+    /// Prints the current state of the potion
+    /// </summary>
     void PrintWall()
     {
         for (int i = 0; i < 12; i += 4)

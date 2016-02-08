@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System;
 
+/// <summary>
+/// Handles the logic for the symbol drawing rune ritual
+/// </summary>
 public class RuneRitual : Ritual {
     List<byte> pointsConnected = new List<byte>();
     LineRenderer lineRenderer;

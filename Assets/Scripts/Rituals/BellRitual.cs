@@ -2,11 +2,20 @@
 using System.Collections.Generic;
 using System;
 
+/// <summary>
+/// Handles the logic for the rhythmic bell ritual
+/// </summary>
 public class BellRitual : Ritual
 {
-    const float TIME_PER_SEGMENT = 6;
+    // Duration of the entire segment in seconds
+    const float TIME_PER_SEGMENT = 6f;
+
+    // Error bounds for the note from its intended beat
     const float ACCEPTABLE_NOTE_DISTANCE = .3f;
+
+    // The Y value each possible note will be displayed at
     private float[] NOTE_Y_VALUES = { 1.5f, .5f, -.5f, -1.5f };
+
     private KeyCode[] INPUTS_TO_CHECK = { KeyCode.Q, KeyCode.W, KeyCode.E, KeyCode.R, KeyCode.T };
     private string[] KEY_TEXT_VALUES = { "A", "B", "C", "D", "E" };
 
@@ -33,32 +42,32 @@ public class BellRitual : Ritual
 
     void Start()
     {
-        GenerateBeats(PossibleBeats.Half);
+        GenerateStaff(PossibleBeats.Half);
         resetMeter();
     }
 
     void Update()
     {
-        if (IsClosing())
-            return;
-
-        if (IsSubmitting())
+        if (IsClosing() || IsSubmitting())
             return;
 
         if (Input.GetKeyDown(KeyCode.Backspace))
             resetMeter();
 
+        // Rotate to the next beats per segment
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (++currentBeats == 5)
                 currentBeats = 1;
-            GenerateBeats((PossibleBeats)((int)Mathf.Pow(2, currentBeats) + 1));
+            GenerateStaff((PossibleBeats)((int)Mathf.Pow(2, currentBeats) + 1));
             resetMeter();
         }
 
+        // When the segment has ended
         if (elapsedTime < TIME_PER_SEGMENT)
             if ((elapsedTime += Time.deltaTime) > TIME_PER_SEGMENT)
             {
+                // If there is a missed note or no notes at all
                 if (Array.Exists(notesPlayed, n => n == 9) || !Array.Exists(notesPlayed, n => n > 0))
                     resetMeter();
                 else
@@ -87,6 +96,9 @@ public class BellRitual : Ritual
 
     }
 
+    /// <summary>
+    /// Reset all notes and the current place of the meter
+    /// </summary>
     private void resetMeter()
     {
         canSubmit = false;
@@ -99,7 +111,11 @@ public class BellRitual : Ritual
     }
 
     public enum PossibleBeats { Half = 3, Fourth = 5, Eigth = 9, Sixteenth = 17 }
-    public void GenerateBeats(PossibleBeats beats)
+    /// <summary>
+    /// Clear the current staff and add the specified beats per segment
+    /// </summary>
+    /// <param name="beats">The beats to generate</param>
+    public void GenerateStaff(PossibleBeats beats)
     {
         notesPlayed = new byte[(int)beats - 1];
 

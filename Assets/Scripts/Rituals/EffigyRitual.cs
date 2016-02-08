@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 
+/// <summary>
+/// Handles the logic for the rapid fire effigy ritual
+/// </summary>
 public class EffigyRitual : Ritual {
     public GameObject cutIndicator;
 

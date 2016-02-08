@@ -2,6 +2,9 @@
 using System.Collections;
 using System;
 
+/// <summary>
+/// Handles the logic for the typing incantation ritual
+/// </summary>
 public class IncantationRitual : Ritual {
     public GameObject toTypeMesh;
     public GameObject typedMesh;
