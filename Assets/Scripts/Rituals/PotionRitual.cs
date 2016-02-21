@@ -13,6 +13,10 @@ public class PotionRitual : Ritual {
         KeyCode.Z, KeyCode.X, KeyCode.C, KeyCode.V
     };
 
+    public GameObject ingredientDisplay;
+    private TextMesh ingredientText;
+    private string currentIngredientString = "";
+
     void Start()
     {
         ResetPotion();
@@ -33,23 +37,30 @@ public class PotionRitual : Ritual {
         if (Input.GetKeyDown(KeyCode.Backspace))
             ResetPotion();
 
+
         for (int i = 0; i < inputsToCheck.Length; i++)
             if (Input.GetKeyDown(inputsToCheck[i]))
             {
                 if (neededIngredients.Length > 0)
                 {
                     if (addedIngredients[i] < neededIngredients[i])
+                    {
                         addedIngredients[i]++;
+                    }
                     else addedIngredients = new byte[12];
                 }
                 else addedIngredients[i]++;
                 canSubmit = true;
+                SetIngredientText(inputsToCheck[i]);
                 PrintWall();
             }
     }
 
     void ResetPotion()
     {
+        currentIngredientString = "";
+        ingredientText = ingredientDisplay.transform.GetComponent<TextMesh>();
+        ingredientText.text = ". . .";
         addedIngredients = new byte[12];
         canSubmit = false;
     }
@@ -71,5 +82,11 @@ public class PotionRitual : Ritual {
     protected override Component GetCurrentComponent()
     {
         return new Component(Component.Type.Potion, new List<byte>(addedIngredients));
+    }
+
+    void SetIngredientText(KeyCode code)
+    {
+        currentIngredientString = currentIngredientString + code;
+        ingredientText.text = currentIngredientString;
     }
 }
