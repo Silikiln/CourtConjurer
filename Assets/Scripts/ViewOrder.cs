@@ -92,7 +92,7 @@ public class ViewOrder : Ritual
             componentInfo.transform.FindChild("Type Text").GetComponent<TextMesh>().text = c.ComponentType.ToString();
             componentInfo.transform.FindChild("Content Text").GetComponent<TextMesh>().text = c.GetContent();
 
-            componentInfo.GetComponent<SpriteRenderer>().enabled = true;
+            //componentInfo.GetComponent<SpriteRenderer>().enabled = true;
 
             // Move to the next row
             i++;

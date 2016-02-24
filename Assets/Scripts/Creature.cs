@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using UnityEditor;
 
 /// <summary>
 /// Data type to store information about a creature and how to summon it
@@ -198,5 +199,22 @@ public class Creature
     public override string ToString()
     {
         return Title;
+    }
+
+    public Sprite FetchCreatureSprite()
+    {
+        string path = "Sprites/Creatures/" + this.Title.ToLower();
+        Debug.Log("Creature File Path: " + path);
+        Sprite creatureSprite = Resources.Load <Sprite>(path);
+        if(creatureSprite != null)
+        {
+            Debug.Log("fetched...something");
+        }
+        else
+        {
+            Debug.Log("null...something");
+        }
+            
+        return creatureSprite;
     }
 }

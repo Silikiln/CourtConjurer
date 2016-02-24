@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 using System;
 
 /// <summary>
@@ -10,7 +11,8 @@ public class Beastiary : Ritual {
     public GameObject typeText;
     public GameObject attributeText;
     public GameObject componentPrefab;
-     
+    public Button targetCreatureButton;
+
     // Offsets for displaying required components
     public float xOffset = .25f;
     public float yOffset = 4f;
@@ -23,6 +25,7 @@ public class Beastiary : Ritual {
     // Use this for initialization
     void Start()
     {
+        targetCreatureButton.onClick.AddListener(() => SetTargetCreature());
         this.currentCreature = Creature.loadedCreatures[currentCreatureIndex];
         this.displayInfo();
     }
@@ -105,6 +108,12 @@ public class Beastiary : Ritual {
             componentInfo.transform.FindChild("Content Text").GetComponent<TextMesh>().text = currentCreature.RequiredComponents[i].GetContent();
             componentInfo.GetComponent<SpriteRenderer>().enabled = Order.SubmittedComponents.Exists(c => c.MatchesComponent(currentCreature.RequiredComponents[i], currentCreature.Names));
         }
+    }
+
+    private void SetTargetCreature()
+    {
+        Debug.Log("Title: " + currentCreature.Title + " Type: " + currentCreature.Type);
+        GameManager.bookedCreature.NewBookedCreature(currentCreature);
     }
 
     protected override Component GetCurrentComponent()
