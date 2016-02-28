@@ -114,6 +114,7 @@ public class Beastiary : Ritual {
     {
         Debug.Log("Title: " + currentCreature.Title + " Type: " + currentCreature.Type);
         GameManager.bookedCreature.NewBookedCreature(currentCreature);
+        base.CloseRitual();
     }
 
     protected override Component GetCurrentComponent()
