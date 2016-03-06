@@ -7,73 +7,135 @@ using System;
 /// Handles the logic for the rapid fire effigy ritual
 /// </summary>
 public class EffigyRitual : Ritual {
-    public GameObject cutIndicator;
+    public GameObject totem;
+    public GameObject highlightTotem;
+    public Sprite[] totemSprites;
 
-    private KeyCode[] inputsToCheck = { KeyCode.Q, KeyCode.W, KeyCode.E, KeyCode.R };
-    private float[] indicatorRotations = { 0, 90, 45, 135 };
-    private byte[] cutsToMake;
-    private List<byte> cutsMade = new List<byte>();
+    public int maxTotems = 6;
+    public float heightDifference = 1.1f;
 
+    List<byte> totemTypeStack = new List<byte>();
+    List<GameObject> totemStack = new List<GameObject>();
+    int currentTotem = 0;
+    
     void Start()
     {
-        cutsToMake = new byte[0];
-        ResetCuts();
+        ResetTotem();
+        highlightTotem.transform.localScale = totemStack[0].transform.localScale;
     }
 
     void Update()
     {
-        if (IsClosing())
-            return;
-
-        if (IsSubmitting())
+        if (IsClosing() || IsSubmitting())
             return;
 
         if (Input.GetKeyDown(KeyCode.Backspace))
-            ResetCuts();
+            ResetTotem();
 
-        for (int i = 0; i < inputsToCheck.Length; i++)
-            if (Input.GetKeyDown(inputsToCheck[i]))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                if (totemTypeStack[currentTotem] == 0)
+                    totemTypeStack[currentTotem] = (byte)(totemSprites.Length - 1);
+                else totemTypeStack[currentTotem]--;
+
+            if (Input.GetKeyDown(KeyCode.RightArrow) && ++totemTypeStack[currentTotem] == totemSprites.Length)
+
+                totemTypeStack[currentTotem] = 0;
+
+            totemStack[currentTotem].GetComponent<SpriteRenderer>().sprite = totemSprites[totemTypeStack[currentTotem]];
+
+            canSubmit = !totemTypeStack.Contains(0);
+        }
+        else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)))
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                canSubmit = true;
-
-                if (cutsToMake.Length > 0)
+                if (currentTotem == 0)
                 {
-                    if (i == cutsToMake[cutsMade.Count])
-                        cutsMade.Add((byte)i);
-                    else
-                        cutsMade.Clear();
-
-                    if (cutsMade.Count >= cutsToMake.Length)
-                        Debug.Log("Correct Yo");
-                    else
-                        UpdateIndicator();
+                    if (totemTypeStack[currentTotem] > 0 && totemStack.Count < maxTotems)
+                        AddTotem();
                 }
-                else cutsMade.Add((byte)i);
-
-                string result = "";
-                foreach (byte b in cutsMade) result += inputsToCheck[b].ToString();
-                Debug.Log(result);
+                else if (totemTypeStack[currentTotem] == 0)
+                    RemoveTotem(currentTotem--);
+                else currentTotem--;
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                if (currentTotem == totemStack.Count - 1 && totemTypeStack[currentTotem] > 0 && totemStack.Count < maxTotems)
+                {
+                    currentTotem++;
+                    AddTotem();
+                }
+                else if (currentTotem < totemStack.Count - 1)
+                    if (totemTypeStack[currentTotem] == 0)
+                        RemoveTotem(currentTotem);
+                    else currentTotem++;
             }
 
-        //if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-        //    foreach (Creature c in Creature.matchingCreatures(new EffigyRitual(cutsMade)))
-        //        Debug.Log(c);
-
+            highlightTotem.transform.position = totemStack[currentTotem].transform.position;
+        }
+        else if (Input.GetKeyDown(KeyCode.Delete))
+            RemoveTotem(currentTotem);
     }
 
-    void ResetCuts()
+    void AddTotem()
     {
-        cutsMade.Clear();
+        GameObject newTotem = GameObject.Instantiate(totem);
+        newTotem.GetComponent<SpriteRenderer>().sprite = totemSprites[0];
+        newTotem.transform.parent = transform;
+
+        totemStack.Insert(currentTotem, newTotem);
+        totemTypeStack.Insert(currentTotem, 0);
+
+        PositionTotems();
         canSubmit = false;
     }
 
-    void UpdateIndicator()
+    void RemoveTotem(int index)
     {
-        cutIndicator.transform.rotation = Quaternion.Euler(0, 0, indicatorRotations[cutsToMake[cutsMade.Count]]);
+        if (totemStack.Count == 1)
+            return;
+
+        if (currentTotem == totemStack.Count - 1)
+            currentTotem--;
+
+        GameObject toRemove = totemStack[index];
+        totemStack.RemoveAt(index);
+        totemTypeStack.RemoveAt(index);
+
+        GameObject.Destroy(toRemove);
+
+        PositionTotems();
+    }
+
+    void PositionTotems()
+    {
+        int index = 0;
+        for (float yPos = heightDifference * (totemStack.Count / 2) - (totemStack.Count % 2 == 0 ? heightDifference / 2 : 0);
+            index < totemStack.Count; index++, yPos -= heightDifference)
+            totemStack[index].transform.position = new Vector3(0, yPos, index);
+
+        highlightTotem.transform.position = totemStack[currentTotem].transform.position;
+    }
+
+    void ResetTotem()
+    {
+        currentTotem = 0;
+
+        while (totemStack.Count > 0)
+        {
+            GameObject.Destroy(totemStack[totemStack.Count - 1]);
+            totemStack.RemoveAt(totemStack.Count - 1);
+        }
+        
+        totemTypeStack.Clear();
+
+        AddTotem();
     }
 
     protected override Component GetCurrentComponent()
     {
-        return new Component(Component.Type.Effigy, cutsMade);
+        return new Component(Component.Type.Effigy, totemTypeStack);
     }
 }
