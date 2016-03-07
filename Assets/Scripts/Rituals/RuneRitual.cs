@@ -19,15 +19,20 @@ public class RuneRitual : Ritual {
     float tempDistance;
     Vector2[] pointVectors = new Vector2[9];
     public Vector2[] matchPattern = new Vector2[5];
+    Double pointPosition;
 
     void Start()
     {
         canSubmit = true;
+       
+        //for (int x = -1; x <= 1; x++)
+        //    pointVectors[2 + (x + 1) * 3] = new Vector2(x * GameObject.Find("Point" + i.ToString()).transform.position.x, GameObject.Find("Point" + i.ToString()).transform.position.y);
+        //for (int x = -1; x <= 1; x++)
+        //    pointVectors[1 + (x + 1) * 3] = new Vector2(x * 3, 0);
+        //for (int x = -1; x <= 1; x++)
+        //    pointVectors[0 + (x + 1) * 3] = new Vector2(x * 2, 2);
 
-        for (int x = -1; x <= 1; x++)
-            for (int y = 1; y >= -1; y--)
-                pointVectors[y * -1 + 1 + (x + 1) * 3] = new Vector2(x * 2, y * 2);
-
+       
         startPointDistance = 9999;
         nextPointDistance = 9999;
 
@@ -75,6 +80,15 @@ public class RuneRitual : Ritual {
 
     void Update()
     {
+        int z = 0;
+        for (int x = 0; x < 3; x++)
+        {
+            for (int y = 0; y < 3; y++)
+            {
+                pointVectors[z] = new Vector2(GameObject.Find("Point" + z.ToString()).transform.position.x, GameObject.Find("Point" + z.ToString()).transform.position.y);
+                z++;
+            }
+        }
         if (IsClosing())
             return;
 
