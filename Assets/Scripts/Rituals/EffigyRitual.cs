@@ -76,4 +76,8 @@ public class EffigyRitual : Ritual {
     {
         return new Component(Component.Type.Effigy, cutsMade);
     }
+    protected override Component.Type GetRitualType()
+    {
+        return Component.Type.Effigy;
+    }
 }

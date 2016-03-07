@@ -137,4 +137,8 @@ public class RuneRitual : Ritual {
     {
         return new Component(Component.Type.Rune, pointsConnected);
     }
+    protected override Component.Type GetRitualType()
+    {
+        return Component.Type.Rune;
+    }
 }

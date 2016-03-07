@@ -137,4 +137,9 @@ public class BellRitual : Ritual
     {
         return new Component(Component.Type.Bell, new List<byte>(notesPlayed));
     }
+
+    protected override Component.Type GetRitualType()
+    {
+        return Component.Type.Bell;
+    }
 }

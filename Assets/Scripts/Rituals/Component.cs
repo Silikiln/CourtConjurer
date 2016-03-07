@@ -5,7 +5,7 @@
 /// </summary>
 public class Component
 {
-    public enum Type { Incantation, Rune, Bell, Effigy, Potion }
+    public enum Type { Incantation, Rune, Bell, Effigy, Potion, None}
 
     public Type ComponentType { get; private set; }
     public string Incantation { get; private set; }

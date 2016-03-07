@@ -73,4 +73,8 @@ public class IncantationRitual : Ritual {
     {
         return new Component(typed);
     }
+    protected override Component.Type GetRitualType()
+    {
+        return Component.Type.Incantation;
+    }
 }

@@ -239,5 +239,9 @@ public class GameManager : MonoBehaviour {
             foreach (Transform t in panel.transform)
                 t.gameObject.SetActive(true);
         }
+        public Creature getCreature()
+        {
+            return this.currentBookmarkedCreature;
+        }
     }
 }

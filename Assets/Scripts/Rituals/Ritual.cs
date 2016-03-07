@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// The base class for each ritual
 /// </summary>
 public abstract class Ritual : MonoBehaviour {
     protected static Ritual currentRitual;
-
+    protected string creatureNotesWindowName = "targetCreatureNotes";
     /// <summary>
     /// Close the currently opened ritual, if any
     /// </summary>
@@ -25,6 +27,7 @@ public abstract class Ritual : MonoBehaviour {
         currentRitual = this;
         GameManager.desk.SetActive(false);
         gameObject.SetActive(true);
+        LoadCreatureNotes();
     }
 
     /// <summary>
@@ -87,9 +90,37 @@ public abstract class Ritual : MonoBehaviour {
         return false;
     }
 
+    protected void LoadCreatureNotes()
+    {
+        //check if there is already a prefab and destroy it
+        if(currentRitual.gameObject.transform.FindChild(creatureNotesWindowName))
+        {
+            Destroy(currentRitual.gameObject.transform.FindChild(creatureNotesWindowName).gameObject);
+        }
+
+        //if there is a bookmarkedcreature and that creature has a ritual requirement that matches
+        Creature tempCreature = GameManager.bookedCreature.getCreature();
+        if (tempCreature != null)
+        {
+            //get the components of the creature and check which rituals are related?
+            Component requiredComponent = tempCreature.RequiredComponents.FirstOrDefault(c => c.ComponentType == GetRitualType());
+            if(requiredComponent != null)
+            {
+                string path = "Prefabs/Windows/" + creatureNotesWindowName;
+                GameObject creatureNotesWindow = (GameObject)Instantiate(Resources.Load<GameObject>(path), new Vector3(-5, 2, 0), Quaternion.identity);
+                creatureNotesWindow.name = creatureNotesWindowName;
+                Debug.Log(creatureNotesWindow.name);
+                Transform creatureNotesWindowTransform = creatureNotesWindow.transform;
+                creatureNotesWindowTransform.parent = this.gameObject.transform;
+            } 
+        }
+    }
+
     /// <summary>
-    /// Gets the current component result of the ritual
+    /// Gets the current component result of the ritual6
     /// </summary>
     /// <returns></returns>
     protected abstract Component GetCurrentComponent();
+    protected abstract Component.Type GetRitualType();
 }
+
