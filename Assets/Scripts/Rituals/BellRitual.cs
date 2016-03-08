@@ -39,6 +39,7 @@ public class BellRitual : Ritual
         {
             currentNote = 0;
             elapsedTime = 0;
+            foreach (GameObject b in bells) b.GetComponent<BellSlide>().ClearHighlight();
         }
             
 
