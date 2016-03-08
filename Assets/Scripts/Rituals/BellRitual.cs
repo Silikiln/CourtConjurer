@@ -48,7 +48,7 @@ public class BellRitual : Ritual
 
         // Move meter across staff
         staffMeter.transform.localPosition = Vector3.Lerp(meterStartPosition, meterEndPosition, Mathf.SmoothStep(-.05f, 1.05f, elapsedTime / TimePerPlaythrough));
-        if (currentNote < 8 && staffMeter.transform.position.x > xPositionMarkers[currentNote].transform.position.x)
+        if (currentNote < xPositionMarkers.Length && staffMeter.transform.position.x > xPositionMarkers[currentNote].transform.position.x)
         {
             foreach (GameObject b in bells) b.GetComponent<BellSlide>().PlaySound(currentNote);
             currentNote++;
