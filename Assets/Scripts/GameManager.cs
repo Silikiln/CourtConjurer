@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour {
     public GameObject timeDisplay;
 
     // Timer variables in seconds
-    public float countDownDuration = 3;
+    public float countDownDuration = .5f;
     public float roundDuration = 300;
     private float roundTimer;
 
@@ -99,8 +99,7 @@ public class GameManager : MonoBehaviour {
         }
 
         // Update the time spent in this round
-        roundTimer += Time.deltaTime;
-        textTimeCount.text = string.Format("{0:0.0}s", roundTimer);
+        textTimeCount.text = string.Format("{0:0.0}s", roundTimer += Time.deltaTime);
         
         // Check if round has ended
         if (roundTimer >= roundDuration)
