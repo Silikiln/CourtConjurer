@@ -8,7 +8,7 @@ using System.Linq;
 /// </summary>
 public class BellRitual : Ritual
 {
-    public float TimePerPlaythrough = 6f; 
+    public float TimePerPlaythrough = 4f; 
 
     public Vector3 meterStartPosition;
     public Vector3 meterEndPosition;
@@ -25,6 +25,9 @@ public class BellRitual : Ritual
         BellSlide.xPositions = new float[xPositionMarkers.Length];
         for (int i = 0; i < xPositionMarkers.Length; i++)
             BellSlide.xPositions[i] = xPositionMarkers[i].transform.position.x;
+
+        BellSlide.FarLeft = meterStartPosition.x;
+        BellSlide.FarRight = meterEndPosition.x;
 
         canSubmit = true;
     }
