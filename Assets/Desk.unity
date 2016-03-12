@@ -174,7 +174,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 497708, guid: d9ae4d8a4153f7b42ae3d517ddd36156, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -3.5
       objectReference: {fileID: 0}
     - target: {fileID: 497708, guid: d9ae4d8a4153f7b42ae3d517ddd36156, type: 2}
       propertyPath: m_LocalPosition.z
@@ -209,6 +209,10 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: a2bc4d2ba52d0e143850f7cd2def5fc7,
         type: 3}
+    - target: {fileID: 21237110, guid: d9ae4d8a4153f7b42ae3d517ddd36156, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d9ae4d8a4153f7b42ae3d517ddd36156, type: 2}
   m_IsPrefabParent: 0
@@ -2793,13 +2797,12 @@ MonoBehaviour:
   totem: {fileID: 110356, guid: d9ae4d8a4153f7b42ae3d517ddd36156, type: 2}
   highlightTotem: {fileID: 503151286}
   totemSprites:
-  - {fileID: 21300000, guid: 403655796c539b5498b1682ed9a86941, type: 3}
+  - {fileID: 21300000, guid: 7138c9da91f7d884f86727aadc03de11, type: 3}
   - {fileID: 21300000, guid: 7211e2ab9a1ec3b499fa527ea12839ec, type: 3}
+  - {fileID: 21300000, guid: 94b0fc67746d8a141a4df08d86319178, type: 3}
+  - {fileID: 21300000, guid: f7915b5cf33955f4ab520c6b28cdc7d2, type: 3}
   - {fileID: 21300000, guid: 308f2726d17b9af41932f30c0098cfae, type: 3}
   - {fileID: 21300000, guid: 16dacde3224bca9419c1b08b825a21cf, type: 3}
-  - {fileID: 21300000, guid: 94b0fc67746d8a141a4df08d86319178, type: 3}
-  - {fileID: 21300000, guid: 7138c9da91f7d884f86727aadc03de11, type: 3}
-  - {fileID: 21300000, guid: f7915b5cf33955f4ab520c6b28cdc7d2, type: 3}
   maxTotems: 6
   heightDifference: 1.1
 --- !u!1 &765519114
