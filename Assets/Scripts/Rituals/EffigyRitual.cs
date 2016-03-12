@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Random = UnityEngine.Random;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -52,7 +53,7 @@ public class EffigyRitual : Ritual {
         else if (Input.GetKeyDown(KeyCode.Space) && totemStack.Count < maxTotems)
             AddTotem();
         else if (Input.GetKeyDown(KeyCode.Delete))
-            RemoveTotem(currentTotem);
+            RemoveTotem();
     }
 
     void AddTotem()
@@ -60,27 +61,30 @@ public class EffigyRitual : Ritual {
         GameObject newTotem = GameObject.Instantiate(totem);
         newTotem.GetComponent<SpriteRenderer>().sprite = totemSprites[0];
         newTotem.transform.parent = transform;
-        newTotem.transform.position -= new Vector3(0, 0, totemStack.Count);
 
         totemStack.Add(newTotem);
-        totemTypeStack.Add(0);
+        int totemType = (int)(Random.value * 9999) % 6;
+        totemTypeStack.Add((byte)totemType);
+        newTotem.GetComponent<SpriteRenderer>().sprite = totemSprites[totemType];
 
         UpdateTotem();
     }
 
-    void RemoveTotem(int index)
+    void RemoveTotem()
     {
-        if (totemStack.Count == 1)
+        if (totemStack.Count == 0)
             return;
 
-        if (currentTotem == totemStack.Count - 1)
-            currentTotem--;
+        int index = totemStack.Count - 1;
 
         GameObject toRemove = totemStack[index];
         totemStack.RemoveAt(index);
         totemTypeStack.RemoveAt(index);
 
         GameObject.Destroy(toRemove);
+
+        if (totemStack.Count > 0 && currentTotem == totemStack.Count)
+            currentTotem--;
 
         UpdateTotem();
     }
