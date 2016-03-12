@@ -112,8 +112,7 @@ public class Beastiary : Ritual {
 
     private void SetTargetCreature()
     {
-        Debug.Log("Title: " + currentCreature.Title + " Type: " + currentCreature.Type);
-        GameManager.bookedCreature.NewBookedCreature(currentCreature);
+        BookmarkedPanel.BookmarkedCreature = currentCreature;
         base.CloseRitual();
     }
 

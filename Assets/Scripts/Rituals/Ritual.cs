@@ -99,7 +99,7 @@ public abstract class Ritual : MonoBehaviour {
         }
 
         //if there is a bookmarkedcreature and that creature has a ritual requirement that matches
-        Creature tempCreature = GameManager.bookedCreature.getCreature();
+        Creature tempCreature = BookmarkedPanel.BookmarkedCreature;
         if (tempCreature != null)
         {
             //get the components of the creature and check which rituals are related?

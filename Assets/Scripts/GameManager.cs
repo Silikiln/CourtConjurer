@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour {
     /// All of the orders the player has completed for this round
     /// </summary>
     public static List<Order> completedOrders = new List<Order>();
-    public static BookMarkedCreature bookedCreature = new BookMarkedCreature();
     /// <summary>
     /// Complete an order
     /// </summary>
@@ -57,9 +56,6 @@ public class GameManager : MonoBehaviour {
 
         // Set the desk object as a static object so it can be hidden globally
         desk = assignedDesk;
-
-        //set panel
-        bookedCreature.SetPanel(bookMarkedCreaturePanel);
 
         // Assign the TextMesh variables from the parents
         textTimeCaption = timeDisplay.transform.FindChild("Caption").GetComponent<TextMesh>();
@@ -195,52 +191,5 @@ public class GameManager : MonoBehaviour {
         Order.GenerateOrder();
 
         StartCoroutine(CountDown());
-    }
-
-    public class BookMarkedCreature
-    {
-        private GameObject panel;
-        private Creature currentBookmarkedCreature;
-        private TextMesh creatureTitle, creatureType;
-        private SpriteRenderer creatureImage;
-        public void SetPanel(GameObject givenPanel)
-        {
-            this.panel = givenPanel;
-
-            //grab the panel parts
-            creatureImage = panel.transform.FindChild("CreatureImage").GetComponent<SpriteRenderer>();
-            creatureTitle = panel.transform.FindChild("CreatureTitle").GetComponent<TextMesh>();
-            creatureType = panel.transform.FindChild("CreatureType").GetComponent<TextMesh>();
-        }
-
-        public void NewBookedCreature(Creature newBookmarkedCreature)
-        {
-            currentBookmarkedCreature = newBookmarkedCreature;
-            UpdatePanelDisplay();
-        }
-
-        private void UpdatePanelDisplay()
-        {
-            //set the panel parts based on the currentBookmarkedCreature
-            creatureTitle.text = currentBookmarkedCreature.Title;
-            creatureType.text = currentBookmarkedCreature.Type;
-            creatureImage.sprite = currentBookmarkedCreature.FetchCreatureSprite();
-            ShowPanel();
-        }
-
-        private void HidePanel()
-        {
-            foreach (Transform t in panel.transform)
-                t.gameObject.SetActive(false);
-        }
-        private void ShowPanel()
-        {
-            foreach (Transform t in panel.transform)
-                t.gameObject.SetActive(true);
-        }
-        public Creature getCreature()
-        {
-            return this.currentBookmarkedCreature;
-        }
     }
 }

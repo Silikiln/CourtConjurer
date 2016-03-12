@@ -204,16 +204,10 @@ public class Creature
     public Sprite FetchCreatureSprite()
     {
         string path = "Sprites/Creatures/" + this.Title.ToLower();
-        Debug.Log("Creature File Path: " + path);
         Sprite creatureSprite = Resources.Load <Sprite>(path);
-        if(creatureSprite != null)
-        {
-            Debug.Log("fetched...something");
-        }
-        else
-        {
-            Debug.Log("null...something");
-        }
+
+        if (creatureSprite == null)
+            throw new MissingReferenceException("Could not load creature sprite for " + Title + " at path '" + path + "'");
             
         return creatureSprite;
     }
