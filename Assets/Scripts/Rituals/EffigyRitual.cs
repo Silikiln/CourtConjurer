@@ -119,7 +119,7 @@ public class EffigyRitual : Ritual {
     {
         return new Component(Component.Type.Effigy, totemTypeStack);
     }
-    protected override Component.Type GetRitualType()
+    public override Component.Type GetRitualType()
     {
         return Component.Type.Effigy;
     }

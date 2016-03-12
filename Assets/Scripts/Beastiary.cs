@@ -120,8 +120,4 @@ public class Beastiary : Ritual {
     {
         throw new NotImplementedException();
     }
-    protected override Component.Type GetRitualType()
-    {
-        return Component.Type.None;
-    }
 }

@@ -83,7 +83,7 @@ public class PotionRitual : Ritual {
     {
         return new Component(Component.Type.Potion, new List<byte>(addedIngredients));
     }
-    protected override Component.Type GetRitualType()
+    public override Component.Type GetRitualType()
     {
         return Component.Type.Potion;
     }
