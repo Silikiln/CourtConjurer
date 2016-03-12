@@ -11,6 +11,11 @@
 				  <Material>1</Material>
 				  <Material>2</Material>
 			  </Potion>
+        <Effigy>
+          <Element>0</Element>
+          <Element>1</Element>
+          <Element>2</Element>
+        </Effigy>      
 	  </Rituals>
   </Creature>
   <Creature>
@@ -53,6 +58,7 @@
 				  <Bell>0</Bell>
 				  <Bell>2</Bell>
 				  <Bell>0</Bell>
+          <Bell>4</Bell>
 			  </Bells>
 			  <Incantation>AB</Incantation>
 	  </Rituals>

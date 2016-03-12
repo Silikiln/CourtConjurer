@@ -111,6 +111,10 @@ public abstract class Ritual : MonoBehaviour {
                 creatureNotesWindow.name = creatureNotesWindowName;
                 Debug.Log(creatureNotesWindow.name);
                 Transform creatureNotesWindowTransform = creatureNotesWindow.transform;
+                TextMesh creatureNameText = creatureNotesWindowTransform.FindChild("NoteHeader").GetComponent<TextMesh>();
+                TextMesh ritualInfoText = creatureNotesWindowTransform.FindChild("RitualInfo").GetComponent<TextMesh>();
+                creatureNameText.text = tempCreature.Title;
+                ritualInfoText.text = requiredComponent.GetContent();
                 creatureNotesWindowTransform.parent = this.gameObject.transform;
             } 
         }

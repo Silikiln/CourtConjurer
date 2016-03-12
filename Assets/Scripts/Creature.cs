@@ -60,7 +60,7 @@ public class Creature
                         case "Effigy":
                             component = new Component(Component.Type.Effigy);
                             break;
-                        case "Cut":
+                        case "Element":
                             component.addData(byte.Parse(reader.ReadInnerXml()));
                             break;
                         case "Incantation":
