@@ -53,8 +53,13 @@ public class BellRitual : Ritual
             foreach (GameObject b in bells) b.GetComponent<BellSlide>().PlaySound(currentNote);
             currentNote++;
         }
-            //foreach (GameObject bell in bells.Where(b => b.GetComponent<BellSlide>().GetIndex() == currentNote))
-                //bell.GetComponent<BellSlide>().PlaySound();
+    }
+
+    public override void ShowRitual()
+    {
+        base.ShowRitual();
+        BellSlide.ProperLocations = BookmarkedPanel.BookmarkedCreature.GetFirstComponentOfType(GetRitualType()) != null ?
+            BookmarkedPanel.BookmarkedCreature.GetFirstComponentOfType(GetRitualType()).GetData() : null;
     }
 
     protected override Component GetCurrentComponent()

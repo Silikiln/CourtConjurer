@@ -607,8 +607,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimePerPlaythrough: 4
-  meterStartPosition: {x: -4.35, y: -2, z: 0}
-  meterEndPosition: {x: 4.35, y: -2, z: 0}
+  meterStartPosition: {x: -4.35, y: -2, z: -1}
+  meterEndPosition: {x: 4.35, y: -2, z: -1}
   staffMeter: {fileID: 1522180060}
   bells:
   - {fileID: 2048430533}
