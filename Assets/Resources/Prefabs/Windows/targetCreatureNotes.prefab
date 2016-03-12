@@ -26,6 +26,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 436116}
   - 212: {fileID: 21211376}
+  - 61: {fileID: 6143174}
+  - 114: {fileID: 11460914}
   m_Layer: 0
   m_Name: targetCreatureNotes
   m_TagString: Untagged
@@ -140,6 +142,20 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!61 &6143174
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180968}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 5, y: 6}
 --- !u!102 &10256060
 TextMesh:
   serializedVersion: 3
@@ -182,6 +198,21 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4294967295
+--- !u!114 &11460914
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 180968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4885304228371be44bb13766340bd7be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FarLeft: 0
+  FarRight: 0
+  FarTop: 0
+  FarBot: 0
 --- !u!212 &21211376
 SpriteRenderer:
   m_ObjectHideFlags: 1
