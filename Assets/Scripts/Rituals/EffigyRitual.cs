@@ -14,14 +14,18 @@ public class EffigyRitual : Ritual {
     public int maxTotems = 6;
     public float heightDifference = 1.1f;
 
+    Vector3 firstPosition;
     List<byte> totemTypeStack = new List<byte>();
     List<GameObject> totemStack = new List<GameObject>();
     int currentTotem = 0;
     
     void Start()
     {
-        ResetTotem();
+        firstPosition = highlightTotem.transform.position;
+
+        AddTotem();
         highlightTotem.transform.localScale = totemStack[0].transform.localScale;
+        ResetTotem();
     }
 
     void Update()
@@ -34,47 +38,19 @@ public class EffigyRitual : Ritual {
 
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
         {
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-                if (totemTypeStack[currentTotem] == 0)
-                    totemTypeStack[currentTotem] = (byte)(totemSprites.Length - 1);
-                else totemTypeStack[currentTotem]--;
-
-            if (Input.GetKeyDown(KeyCode.RightArrow) && ++totemTypeStack[currentTotem] == totemSprites.Length)
-
+            if (Input.GetKeyDown(KeyCode.LeftArrow) && --totemTypeStack[currentTotem] == 255)
+                totemTypeStack[currentTotem] = (byte)(totemSprites.Length - 1);
+            else if (Input.GetKeyDown(KeyCode.RightArrow) && ++totemTypeStack[currentTotem] == totemSprites.Length)
                 totemTypeStack[currentTotem] = 0;
 
             totemStack[currentTotem].GetComponent<SpriteRenderer>().sprite = totemSprites[totemTypeStack[currentTotem]];
-
-            canSubmit = !totemTypeStack.Contains(0);
         }
-        else if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)))
-        {
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                if (currentTotem == 0)
-                {
-                    if (totemTypeStack[currentTotem] > 0 && totemStack.Count < maxTotems)
-                        AddTotem();
-                }
-                else if (totemTypeStack[currentTotem] == 0)
-                    RemoveTotem(currentTotem--);
-                else currentTotem--;
-            }
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                if (currentTotem == totemStack.Count - 1 && totemTypeStack[currentTotem] > 0 && totemStack.Count < maxTotems)
-                {
-                    currentTotem++;
-                    AddTotem();
-                }
-                else if (currentTotem < totemStack.Count - 1)
-                    if (totemTypeStack[currentTotem] == 0)
-                        RemoveTotem(currentTotem);
-                    else currentTotem++;
-            }
-
-            highlightTotem.transform.position = totemStack[currentTotem].transform.position;
-        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && currentTotem < totemStack.Count - 1)
+            highlightTotem.transform.position = totemStack[++currentTotem].transform.position;
+        else if (Input.GetKeyDown(KeyCode.DownArrow) && currentTotem > 0)
+            highlightTotem.transform.position = totemStack[--currentTotem].transform.position;
+        else if (Input.GetKeyDown(KeyCode.Space) && totemStack.Count < maxTotems)
+            AddTotem();
         else if (Input.GetKeyDown(KeyCode.Delete))
             RemoveTotem(currentTotem);
     }
@@ -84,12 +60,12 @@ public class EffigyRitual : Ritual {
         GameObject newTotem = GameObject.Instantiate(totem);
         newTotem.GetComponent<SpriteRenderer>().sprite = totemSprites[0];
         newTotem.transform.parent = transform;
+        newTotem.transform.position -= new Vector3(0, 0, totemStack.Count);
 
-        totemStack.Insert(currentTotem, newTotem);
-        totemTypeStack.Insert(currentTotem, 0);
+        totemStack.Add(newTotem);
+        totemTypeStack.Add(0);
 
-        PositionTotems();
-        canSubmit = false;
+        UpdateTotem();
     }
 
     void RemoveTotem(int index)
@@ -106,17 +82,19 @@ public class EffigyRitual : Ritual {
 
         GameObject.Destroy(toRemove);
 
-        PositionTotems();
+        UpdateTotem();
     }
 
-    void PositionTotems()
+    void UpdateTotem()
     {
-        int index = 0;
-        for (float yPos = heightDifference * (totemStack.Count / 2) - (totemStack.Count % 2 == 0 ? heightDifference / 2 : 0);
-            index < totemStack.Count; index++, yPos -= heightDifference)
-            totemStack[index].transform.position = new Vector3(0, yPos, index);
+        highlightTotem.GetComponent<SpriteRenderer>().enabled = totemStack.Count > 0;
+        canSubmit = totemStack.Count > 0;
 
-        highlightTotem.transform.position = totemStack[currentTotem].transform.position;
+        for (int index = 0; index < totemStack.Count; index++)
+            totemStack[index].transform.position = firstPosition + new Vector3(0, heightDifference * index, -index);
+
+        if (totemStack.Count > 0)
+            highlightTotem.transform.position = totemStack[currentTotem].transform.position;
     }
 
     void ResetTotem()
@@ -130,8 +108,7 @@ public class EffigyRitual : Ritual {
         }
         
         totemTypeStack.Clear();
-
-        AddTotem();
+        UpdateTotem();
     }
 
     protected override Component GetCurrentComponent()
