@@ -62,7 +62,7 @@ public class BellRitual : Ritual
         return new Component(Component.Type.Bell, bells.Select(b => b.GetComponent<BellSlide>().GetIndex()).ToList());
     }
 
-    protected override Component.Type GetRitualType()
+    public override Component.Type GetRitualType()
     {
         return Component.Type.Bell;
     }

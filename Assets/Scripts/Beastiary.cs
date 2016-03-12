@@ -112,17 +112,12 @@ public class Beastiary : Ritual {
 
     private void SetTargetCreature()
     {
-        Debug.Log("Title: " + currentCreature.Title + " Type: " + currentCreature.Type);
-        GameManager.bookedCreature.NewBookedCreature(currentCreature);
+        BookmarkedPanel.BookmarkedCreature = currentCreature;
         base.CloseRitual();
     }
 
     protected override Component GetCurrentComponent()
     {
         throw new NotImplementedException();
-    }
-    protected override Component.Type GetRitualType()
-    {
-        return Component.Type.None;
     }
 }
