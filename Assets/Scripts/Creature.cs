@@ -212,6 +212,8 @@ public class Creature
         return creatureSprite;
     }
 
+    public bool HasComponentOfType(Component.Type matchingType) { return RequiredComponents.Exists(c => c.ComponentType == matchingType); }
+
     public Component GetFirstComponentOfType(Component.Type matchingType)
     {
         return RequiredComponents.FirstOrDefault(c => c.ComponentType == matchingType);

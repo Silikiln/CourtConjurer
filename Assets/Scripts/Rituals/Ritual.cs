@@ -91,6 +91,13 @@ public abstract class Ritual : MonoBehaviour {
         return false;
     }
 
+    protected byte[] BookmarkedCreatureComponentData()
+    {
+        return BookmarkedPanel.BookmarkedCreature != null &&
+            BookmarkedPanel.BookmarkedCreature.HasComponentOfType(GetRitualType()) ?
+            BookmarkedPanel.BookmarkedCreature.GetFirstComponentOfType(GetRitualType()).GetData() : null;
+    }
+
     protected bool BookmarkedCreatureHasComponent()
     {
         return BookmarkedPanel.BookmarkedCreature != null 

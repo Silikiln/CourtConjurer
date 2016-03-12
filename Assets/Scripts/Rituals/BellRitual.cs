@@ -15,6 +15,9 @@ public class BellRitual : Ritual
 
     public GameObject staffMeter;
     public GameObject[] bells;
+
+    // TODO:
+    // Replace with a single start value and distance between each point
     public GameObject[] xPositionMarkers;
 
     private float elapsedTime = 0;
@@ -58,8 +61,7 @@ public class BellRitual : Ritual
     public override void ShowRitual()
     {
         base.ShowRitual();
-        BellSlide.ProperLocations = BookmarkedPanel.BookmarkedCreature.GetFirstComponentOfType(GetRitualType()) != null ?
-            BookmarkedPanel.BookmarkedCreature.GetFirstComponentOfType(GetRitualType()).GetData() : null;
+        BellSlide.ProperLocations = BookmarkedCreatureComponentData();
     }
 
     protected override Component GetCurrentComponent()
