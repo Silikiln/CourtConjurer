@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour {
 
     // Parent GameObjects
     public GameObject bookMarkedCreaturePanel;
+    public GameObject ritualNotesPanel;
     public GameObject assignedDesk;
     public GameObject resultDisplay;
     public GameObject timeDisplay;
@@ -56,6 +57,9 @@ public class GameManager : MonoBehaviour {
 
         // Set the desk object as a static object so it can be hidden globally
         desk = assignedDesk;
+
+        RitualNotes.instance = ritualNotesPanel.GetComponent<RitualNotes>();
+        BookmarkedPanel.instance = bookMarkedCreaturePanel.GetComponent<BookmarkedPanel>();
 
         // Assign the TextMesh variables from the parents
         textTimeCaption = timeDisplay.transform.FindChild("Caption").GetComponent<TextMesh>();

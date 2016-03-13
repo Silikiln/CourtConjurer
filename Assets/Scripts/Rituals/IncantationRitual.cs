@@ -39,7 +39,6 @@ public class IncantationRitual : Ritual {
         base.ShowRitual();
         GenerateScrolls();
         activateNextScroll();
-        resetTypedText();
     }
 
     void GenerateScrolls()
@@ -47,17 +46,11 @@ public class IncantationRitual : Ritual {
         for (int i = 0; i < scrollNumber; i++)
         {
             scrolls.Add((GameObject)Instantiate(scrollObject));
+            scrolls[i].transform.position += new Vector3(0, 0, i);
+            scrolls[i].transform.parent = this.transform;
         }
 
-        for (int i = 0; i < scrolls.Count; i++)
-        {
-            if(i == 0)
-            {
-                setCurrentScroll(scrolls[i]);
-            }
-            scrolls[i].transform.position = new Vector3(scrolls[i].transform.position.x, scrolls[i].transform.position.y, i);
-            scrolls[i].transform.parent = this.gameObject.transform.FindChild("ScrollHolder").transform;
-        }
+        setCurrentScroll(scrolls[0]);
     }
 
     public void setCurrentScroll(GameObject tempScroll)
@@ -121,6 +114,9 @@ public class IncantationRitual : Ritual {
     void resetTypedText()
     {
         canSubmit = false;
+        foreach (Scroll s in ScrollPosition.takenPositions)
+            if (s.typed.Length > 0) { canSubmit = true; break; }
+
         currentScroll.GetComponent<Scroll>().typed = "";
         typedMesh.text = "";
     }

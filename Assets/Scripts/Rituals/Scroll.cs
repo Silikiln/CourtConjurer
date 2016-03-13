@@ -6,7 +6,7 @@ public class Scroll : MonoBehaviour {
 
 	void OnMouseDown()
     {
-        transform.parent.parent.GetComponent<IncantationRitual>().setCurrentScroll(gameObject);
+        transform.parent.GetComponent<IncantationRitual>().setCurrentScroll(gameObject);
         AddHighlight();
         GetComponent<ScrollPosition>().RemoveFromPosition();
     }

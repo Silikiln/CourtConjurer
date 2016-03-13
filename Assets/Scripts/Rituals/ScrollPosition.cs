@@ -6,18 +6,18 @@ public class ScrollPosition : MonoBehaviour {
     public static float[] xPositions;
     public static float[] yPositions;
     public static Scroll[] takenPositions;
-    private byte noteIndex = 255;
+    private byte scrollIndex = 255;
     void OnMouseUp() {
         //check position then lock or reset
         //compare x position of gameObject to marker positions to see which is the closest
-        noteIndex = 255;
+        scrollIndex = 255;
         for (int i = 0; i < xPositions.Length; i++)
-            if ((noteIndex == 255|| NewPositionCloser(transform.position.x, xPositions[noteIndex], xPositions[i])) && takenPositions[i] == null)
-                noteIndex = (byte)i;
+            if ((scrollIndex == 255|| NewPositionCloser(transform.position.x, xPositions[scrollIndex], xPositions[i])) && takenPositions[i] == null)
+                scrollIndex = (byte)i;
 
         //set the transform equal to the noteIndex of the closest point
-        transform.position = new Vector3(xPositions[noteIndex], yPositions[noteIndex], transform.position.z);
-        takenPositions[noteIndex] = GetComponent<Scroll>();
+        transform.position = new Vector3(xPositions[scrollIndex], yPositions[scrollIndex], transform.position.z);
+        takenPositions[scrollIndex] = GetComponent<Scroll>();
     }
     bool NewPositionCloser(float from, float originalPosition, float newPosition)
     {
@@ -25,9 +25,9 @@ public class ScrollPosition : MonoBehaviour {
     }
     public void RemoveFromPosition()
     {
-        if(noteIndex != 255)
+        if(scrollIndex != 255)
         {
-            takenPositions[noteIndex] = null;
+            takenPositions[scrollIndex] = null;
         }
     }
 }
