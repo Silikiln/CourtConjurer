@@ -61,6 +61,9 @@ public class GameManager : MonoBehaviour {
         RitualNotes.instance = ritualNotesPanel.GetComponent<RitualNotes>();
         BookmarkedPanel.instance = bookMarkedCreaturePanel.GetComponent<BookmarkedPanel>();
 
+        RitualNotes.instance.Initialize();
+        BookmarkedPanel.instance.Initialize();
+
         // Assign the TextMesh variables from the parents
         textTimeCaption = timeDisplay.transform.FindChild("Caption").GetComponent<TextMesh>();
         textTimeCount = timeDisplay.transform.FindChild("Count").GetComponent<TextMesh>();

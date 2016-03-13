@@ -17,7 +17,7 @@ public class BookmarkedPanel : MonoBehaviour {
     private TextMesh titleText, typeText;
     private SpriteRenderer creatureSprite;
 
-    void Start()
+    public void Initialize()
     {
         creatureSprite = transform.FindChild("CreatureImage").GetComponent<SpriteRenderer>();
         titleText = transform.FindChild("CreatureTitle").GetComponent<TextMesh>();

@@ -8,9 +8,9 @@ public class RitualNotes : MonoBehaviour {
     TextMesh nameText, infoText;
 
 	// Use this for initialization
-	void Start () {
-        nameText = transform.FindChild("NoteHeader").GetComponent<TextMesh>();
-        infoText = transform.FindChild("RitualInfo").GetComponent<TextMesh>();
+	public void Initialize() {
+        nameText = transform.FindChild("Title").GetComponent<TextMesh>();
+        infoText = transform.FindChild("Data").GetComponent<TextMesh>();
 	}
 
     public void TryLoad()
