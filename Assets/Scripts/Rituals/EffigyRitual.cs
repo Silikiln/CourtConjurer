@@ -75,8 +75,9 @@ public class EffigyRitual : Ritual {
 
     void HighlightTotem() {
         highlightTotem.GetComponent<SpriteRenderer>().enabled = totemStack.Count > 0;
-        if (totemStack.Count > 0)
-            highlightTotem.transform.position = totemStack[currentTotem].transform.position;
+        if (totemStack.Count == 0) return;
+
+        highlightTotem.transform.position = totemStack[currentTotem].transform.position;
 
         if (correctTotemTypes == null) return;
         if (currentTotem >= correctTotemTypes.Length || correctTotemTypes[currentTotem] != totemTypeStack[currentTotem])
