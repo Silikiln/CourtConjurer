@@ -19,7 +19,6 @@ public class RunePoint : MonoBehaviour {
 
     void OnMouseEnter()
     {
-        if (pointIndex == 4) Debug.Log("Test");
         parentScript.PointMousedOver(pointIndex, transform.localPosition - new Vector3(0, 0, 1));
     }
 

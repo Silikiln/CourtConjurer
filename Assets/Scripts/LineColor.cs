@@ -42,7 +42,6 @@ public abstract class LineColor
             }
 
             Color[] arr = new Color[(points.Count - 1) * 4];
-            Color current = start;
             arr[0] = arr[1] = start;
             for (int i = 2; i < arr.Length - 2; i += 4)
             {
