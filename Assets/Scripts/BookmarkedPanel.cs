@@ -14,15 +14,11 @@ public class BookmarkedPanel : MonoBehaviour {
         }
     }
 
-    private GameObject panel;
     private TextMesh titleText, typeText;
     private SpriteRenderer creatureSprite;
 
-    void Start()
+    public void Initialize()
     {
-        instance = this;
-
-        gameObject.SetActive(false);
         creatureSprite = transform.FindChild("CreatureImage").GetComponent<SpriteRenderer>();
         titleText = transform.FindChild("CreatureTitle").GetComponent<TextMesh>();
         typeText = transform.FindChild("CreatureType").GetComponent<TextMesh>();
