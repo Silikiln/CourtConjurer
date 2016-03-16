@@ -6,20 +6,24 @@ using System;
 /// Handles the logic for the symbol drawing rune ritual
 /// </summary>
 public class RuneRitual : Ritual {
-    public Color good = Color.green, neutral = Color.blue, bad = Color.red;
+    public Color correctColor = Color.green, neutralColor = Color.blue, incorrectColor = Color.red;
 
     List<byte> pointsConnected = new List<byte>();
     ImprovedLineRenderer lineRenderer;
-    bool drawing;
+    bool drawing = false;
 
     byte[] properPoints;
 
-    void Start()
+    public override void ShowRitual()
     {
-        lineRenderer = gameObject.GetComponent<ImprovedLineRenderer>();
-        //lineRenderer.SetColor(new LineColor.Solid(neutral));
-        drawing = false;
-        RunePoint.parentScript = this;
+        base.ShowRitual();
+        if (lineRenderer == null) lineRenderer = gameObject.GetComponent<ImprovedLineRenderer>();
+        if (RunePoint.parentScript == null) RunePoint.parentScript = this;
+
+        lineRenderer.SetColor(new LineColor.Solid(neutralColor));
+        properPoints = BookmarkedCreatureComponentData();
+
+        CheckCorrectness();
     }
 
     Vector3 MousePosition()
@@ -34,6 +38,12 @@ public class RuneRitual : Ritual {
 
         if (!pointsConnected.Contains((byte) index))
         {
+            if (pointsConnected.Count == 1)
+            {
+                pointsConnected.RemoveAt(0);
+                lineRenderer.RemovePoint(0);
+            }
+
             pointsConnected.Add((byte)index);
             lineRenderer.AddPoint(pointPosition);
         } else
@@ -46,6 +56,7 @@ public class RuneRitual : Ritual {
             }
         }
 
+        CheckCorrectness();
         lineRenderer.AddPoint(MousePosition());
     }
 
@@ -66,6 +77,7 @@ public class RuneRitual : Ritual {
             lineRenderer.AddPoint(MousePosition());
         }
 
+        CheckCorrectness();
         canSubmit = pointsConnected.Count > 1;
     }
 
@@ -73,6 +85,17 @@ public class RuneRitual : Ritual {
     {
         drawing = false;
         lineRenderer.RemovePoint(lineRenderer.Count - 1);
+    }
+
+    void CheckCorrectness()
+    {
+        if (properPoints == null) return;
+
+        bool proper = properPoints.Length >= pointsConnected.Count;
+        for (int i = 0; proper && i < pointsConnected.Count; i++)
+            proper = properPoints[i] == pointsConnected[i];
+
+        lineRenderer.SetColor(new LineColor.Solid(proper ? correctColor : incorrectColor));
     }
 
     void Update()

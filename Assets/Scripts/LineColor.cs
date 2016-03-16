@@ -15,7 +15,7 @@ public abstract class LineColor
         public override Color[] GetLineColors(List<Vector3> points)
         {
             Color[] arr = new Color[(points.Count - 1) * 4];
-            for (int i = 0; i < points.Count; i++) arr[i] = solidColor;
+            for (int i = 0; i < arr.Length; i++) arr[i] = solidColor;
             return arr;
         }
     }
