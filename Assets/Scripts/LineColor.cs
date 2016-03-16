@@ -46,7 +46,6 @@ public abstract class LineColor
             arr[0] = arr[1] = start;
             for (int i = 2; i < arr.Length - 2; i += 4)
             {
-                Debug.Log(pointDistance[(i + 2) / 4] / totalDistance);
                 for (int x = 0; x < 4; x++)
                     arr[i + x] = Color.Lerp(start, end, pointDistance[(i + 2) / 4] / totalDistance);
             }

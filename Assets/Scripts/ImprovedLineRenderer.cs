@@ -26,11 +26,7 @@ public class ImprovedLineRenderer : MonoBehaviour {
 
     void Start()
     {
-        colorHandler = new LineColor.Gradient(Color.red, Color.cyan);
-
         GetComponent<MeshFilter>().mesh = new Mesh();
-        AddPoint(Vector3.zero);
-        AddPoint(new Vector3(2, 0));
     }
 
     void UpdateMesh()
@@ -41,6 +37,12 @@ public class ImprovedLineRenderer : MonoBehaviour {
         mesh.Clear();
 
         if (points.Count < 2) return;
+
+        while (vertices.Count > (points.Count - 1) * 4)
+            vertices.RemoveAt(vertices.Count - 1);
+
+        while (triangles.Count > (points.Count - 1) * 6)
+            triangles.RemoveAt(triangles.Count - 1);
 
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
@@ -53,7 +55,7 @@ public class ImprovedLineRenderer : MonoBehaviour {
 
     void UpdateColors()
     {
-        if (colorHandler == null) return;
+        if (colorHandler == null || points.Count < 2) return;
         GetComponent<MeshFilter>().mesh.colors = colorHandler.GetLineColors(points);
     }
 
@@ -79,9 +81,32 @@ public class ImprovedLineRenderer : MonoBehaviour {
         GenerateVertices(index);
     }
 
+    public void RemovePoint(int index)
+    {
+        points.RemoveAt(index);
+        GenerateVertices(index);
+    }
+
+    public void Clear()
+    {
+        points.Clear();
+        UpdateMesh();
+    }
+
+    public void SetColor(LineColor colorHandler) {
+        this.colorHandler = colorHandler;
+        UpdateColors();
+    }
+
+    void GenerateVertices()
+    {
+        for (int i = 1; i < Count; i += 2)
+            GenerateVertices(i);
+    }
+
     void GenerateVertices(int pointIndex)
     {
-        if (pointIndex > 0)
+        if (pointIndex > 0 && pointIndex < points.Count)
             GenerateVertices(pointIndex - 1, pointIndex);
         if (pointIndex < points.Count - 1)
             GenerateVertices(pointIndex, pointIndex + 1);
@@ -97,7 +122,7 @@ public class ImprovedLineRenderer : MonoBehaviour {
         SetVertex(b, aIndex * 4 + 2, angleBetween);
     }
 
-    float AngleBetween(Vector3 from, Vector3 to)
+    static float AngleBetween(Vector3 from, Vector3 to)
     {
         Vector3 result = from - to;
         float angle = Mathf.Atan2(result.y, result.x);
@@ -113,9 +138,5 @@ public class ImprovedLineRenderer : MonoBehaviour {
 
     }
 
-    [ContextMenu("Add Random Point")]
-    void DoSomething()
-    {
-        AddPoint(new Vector3(Random.value * 20 - 10, Random.value * 20 - 10));        
-    }
+    public int Count { get { return points.Count; } }
 }
