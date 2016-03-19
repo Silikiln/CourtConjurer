@@ -63,4 +63,27 @@
 			  <Incantation>AB</Incantation>
 	  </Rituals>
   </Creature>
+  <Creature>
+    <Title>Hydra</Title>
+    <Type>Beast</Type>
+    <Attributes>
+      <Attribute>Resilient</Attribute>
+      <Attribute>Poisonous</Attribute>
+    </Attributes>
+    <Rituals>
+      <Effigy>
+        <Element>5</Element>
+        <Element>1</Element>
+        <Element>1</Element>
+        <Element>5</Element>
+      </Effigy>
+      <Bells>
+        <Bell>3</Bell>
+        <Bell>2</Bell>
+        <Bell>3</Bell>
+        <Bell>4</Bell>
+        <Bell>4</Bell>
+      </Bells>
+    </Rituals>
+  </Creature>
 </Creatures>
