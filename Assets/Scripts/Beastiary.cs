@@ -11,6 +11,7 @@ public class Beastiary : Ritual {
     public GameObject typeText;
     public GameObject attributeText;
     public GameObject componentPrefab;
+    public GameObject creatureImage;
     public Button targetCreatureButton;
 
     // Offsets for displaying required components
@@ -108,6 +109,7 @@ public class Beastiary : Ritual {
             componentInfo.transform.FindChild("Content Text").GetComponent<TextMesh>().text = currentCreature.RequiredComponents[i].GetContent();
             componentInfo.GetComponent<SpriteRenderer>().enabled = Order.SubmittedComponents.Exists(c => c.MatchesComponent(currentCreature.RequiredComponents[i], currentCreature.Names));
         }
+        creatureImage.GetComponent<SpriteRenderer>().sprite = currentCreature.FetchCreatureSprite();
     }
 
     private void SetTargetCreature()

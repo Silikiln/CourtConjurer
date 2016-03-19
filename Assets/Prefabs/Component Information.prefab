@@ -58,7 +58,7 @@ Transform:
   m_GameObject: {fileID: 171788}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.4, y: -0.46, z: 0}
-  m_LocalScale: {x: 0.08, y: 0.08, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 487998}
   m_RootOrder: 1
@@ -149,12 +149,12 @@ TextMesh:
   m_GameObject: {fileID: 171788}
   m_Text: Component Content
   m_OffsetZ: 0
-  m_CharacterSize: 3
+  m_CharacterSize: 1
   m_LineSpacing: 1
   m_Anchor: 3
   m_Alignment: 0
   m_TabSize: 4
-  m_FontSize: 0
+  m_FontSize: 35
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 0}
@@ -170,12 +170,12 @@ TextMesh:
   m_GameObject: {fileID: 168530}
   m_Text: Component Type
   m_OffsetZ: 0
-  m_CharacterSize: 3
+  m_CharacterSize: 1
   m_LineSpacing: 1
   m_Anchor: 3
   m_Alignment: 0
   m_TabSize: 4
-  m_FontSize: 0
+  m_FontSize: 40
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 0}
@@ -228,6 +228,22 @@ Prefab:
       value: 
       objectReference: {fileID: 21300016, guid: feda0c18015b3284cabbc0da85254f9a,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_FontSize
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_CharacterSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 175988}
