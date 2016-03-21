@@ -46,6 +46,8 @@ public class Component
         data = new List<byte>();
     }
 
+    public byte[] GetData() { return data.ToArray(); }
+
     /// <summary>
     /// Add data to the component
     /// </summary>

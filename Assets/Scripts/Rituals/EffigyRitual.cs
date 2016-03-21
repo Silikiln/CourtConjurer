@@ -10,11 +10,13 @@ using System;
 public class EffigyRitual : Ritual {
     public GameObject totem;
     public GameObject highlightTotem;
+    public Sprite neutralHighlight, correctHighlight, incorrectHighlight;
     public Sprite[] totemSprites;
 
     public int maxTotems = 6;
     public float heightDifference = 1.1f;
 
+    byte[] correctTotemTypes;
     Vector3 firstPosition;
     List<byte> totemTypeStack = new List<byte>();
     List<GameObject> totemStack = new List<GameObject>();
@@ -44,16 +46,43 @@ public class EffigyRitual : Ritual {
             else if (Input.GetKeyDown(KeyCode.RightArrow) && ++totemTypeStack[currentTotem] == totemSprites.Length)
                 totemTypeStack[currentTotem] = 0;
 
+            HighlightTotem();
             totemStack[currentTotem].GetComponent<SpriteRenderer>().sprite = totemSprites[totemTypeStack[currentTotem]];
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow) && currentTotem < totemStack.Count - 1)
-            highlightTotem.transform.position = totemStack[++currentTotem].transform.position;
+            HighlightTotem(currentTotem + 1);
         else if (Input.GetKeyDown(KeyCode.DownArrow) && currentTotem > 0)
-            highlightTotem.transform.position = totemStack[--currentTotem].transform.position;
+            HighlightTotem(currentTotem - 1);
         else if (Input.GetKeyDown(KeyCode.Space) && totemStack.Count < maxTotems)
             AddTotem();
         else if (Input.GetKeyDown(KeyCode.Delete))
             RemoveTotem();
+    }
+
+    public override void ShowRitual()
+    {
+        base.ShowRitual();
+        correctTotemTypes = BookmarkedCreatureComponentData();
+        highlightTotem.GetComponent<SpriteRenderer>().sprite = neutralHighlight;
+        HighlightTotem();
+    }
+
+    void HighlightTotem(int index)
+    {
+        currentTotem = index;
+        HighlightTotem();
+    }
+
+    void HighlightTotem() {
+        highlightTotem.GetComponent<SpriteRenderer>().enabled = totemStack.Count > 0;
+        if (totemStack.Count == 0) return;
+
+        highlightTotem.transform.position = totemStack[currentTotem].transform.position;
+
+        if (correctTotemTypes == null) return;
+        if (currentTotem >= correctTotemTypes.Length || correctTotemTypes[currentTotem] != totemTypeStack[currentTotem])
+            highlightTotem.GetComponent<SpriteRenderer>().sprite = incorrectHighlight;
+        else highlightTotem.GetComponent<SpriteRenderer>().sprite = correctHighlight;
     }
 
     void AddTotem()
@@ -91,14 +120,11 @@ public class EffigyRitual : Ritual {
 
     void UpdateTotem()
     {
-        highlightTotem.GetComponent<SpriteRenderer>().enabled = totemStack.Count > 0;
         canSubmit = totemStack.Count > 0;
 
         for (int index = 0; index < totemStack.Count; index++)
             totemStack[index].transform.position = firstPosition + new Vector3(0, heightDifference * index, -index);
-
-        if (totemStack.Count > 0)
-            highlightTotem.transform.position = totemStack[currentTotem].transform.position;
+        HighlightTotem();
     }
 
     void ResetTotem()

@@ -4,7 +4,7 @@ using System.Collections;
 public class BellSlide : MonoBehaviour {
     public static float FarLeft, FarRight;
     public static float[] xPositions = { -5.97f, -4.27f, -2.57f, -0.87f, 0.83f, 2.53f, 4.23f, 5.93f };
-    public static byte[] ProperLocations = { 1, 3, 2, 4, 2 };
+    public static byte[] ProperLocations;
 
     public byte bellIndex;
     public AudioClip bellSound;

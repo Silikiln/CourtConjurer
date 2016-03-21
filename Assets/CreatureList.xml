@@ -36,11 +36,11 @@
 	  <Rituals>
 			  <Rune>
           <Point>0</Point>
-          <Point>4</Point>
-          <Point>8</Point>
-          <Point>7</Point>
-          <Point>6</Point>
+          <Point>1</Point>
           <Point>3</Point>
+          <Point>2</Point>
+          <Point>4</Point>
+          <Point>7</Point>
         </Rune>
 			  <Incantation>a ~ b</Incantation>
 	  </Rituals>

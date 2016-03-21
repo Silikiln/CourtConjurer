@@ -18,7 +18,7 @@ public class RitualNotes : MonoBehaviour {
         //if there is a bookmarkedcreature and that creature has a ritual requirement that matches
         if (BookmarkedPanel.BookmarkedCreature == null) return;
 
-        Component requiredComponent = BookmarkedPanel.BookmarkedCreature.RequiredComponents.FirstOrDefault(c => c.ComponentType == Ritual.CurrentRitual.GetRitualType());
+        Component requiredComponent = BookmarkedPanel.BookmarkedCreature.GetFirstComponentOfType(Ritual.CurrentRitual.GetRitualType());
         if (requiredComponent == null) return;
 
         nameText.text = BookmarkedPanel.BookmarkedCreature.Title;

@@ -91,6 +91,19 @@ public abstract class Ritual : MonoBehaviour {
         return false;
     }
 
+    protected byte[] BookmarkedCreatureComponentData()
+    {
+        return BookmarkedPanel.BookmarkedCreature != null &&
+            BookmarkedPanel.BookmarkedCreature.HasComponentOfType(GetRitualType()) ?
+            BookmarkedPanel.BookmarkedCreature.GetFirstComponentOfType(GetRitualType()).GetData() : null;
+    }
+
+    protected bool BookmarkedCreatureHasComponent()
+    {
+        return BookmarkedPanel.BookmarkedCreature != null 
+            && BookmarkedPanel.BookmarkedCreature.GetFirstComponentOfType(GetRitualType()) != null;
+    }
+
     /// <summary>
     /// Gets the current component result of the ritual6
     /// </summary>

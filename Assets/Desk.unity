@@ -607,8 +607,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimePerPlaythrough: 4
-  meterStartPosition: {x: -4.35, y: -2, z: 0}
-  meterEndPosition: {x: 4.35, y: -2, z: 0}
+  meterStartPosition: {x: -4.35, y: -2, z: -1}
+  meterEndPosition: {x: 4.35, y: -2, z: -1}
   staffMeter: {fileID: 1522180060}
   bells:
   - {fileID: 2048430533}
@@ -891,6 +891,64 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!1 &183445306
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 183445308}
+  - 212: {fileID: 183445307}
+  m_Layer: 0
+  m_Name: HighlightTotem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &183445307
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 183445306}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_ReflectionProbeUsage: 0
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: a2bc4d2ba52d0e143850f7cd2def5fc7, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+--- !u!4 &183445308
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 183445306}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.670109, y: -9.886514, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
 --- !u!1 &213239837
 GameObject:
   m_ObjectHideFlags: 0
@@ -2765,6 +2823,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totem: {fileID: 110356, guid: d9ae4d8a4153f7b42ae3d517ddd36156, type: 2}
   highlightTotem: {fileID: 503151286}
+  neutralHighlight: {fileID: 21300000, guid: a2bc4d2ba52d0e143850f7cd2def5fc7, type: 3}
+  correctHighlight: {fileID: 21300000, guid: 5088434359d0c8942a40eb8c5688304d, type: 3}
+  incorrectHighlight: {fileID: 21300000, guid: 63847453647fb6f4fb54c33c7f9e9d81, type: 3}
   totemSprites:
   - {fileID: 21300000, guid: 7138c9da91f7d884f86727aadc03de11, type: 3}
   - {fileID: 21300000, guid: 7211e2ab9a1ec3b499fa527ea12839ec, type: 3}
