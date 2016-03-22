@@ -37,23 +37,44 @@ public class PotionRitual : Ritual {
         if (Input.GetKeyDown(KeyCode.Backspace))
             ResetPotion();
 
-
         for (int i = 0; i < inputsToCheck.Length; i++)
-            if (Input.GetKeyDown(inputsToCheck[i]))
+        {
+            if(Input.GetKeyDown(inputsToCheck[i]))
             {
-                if (neededIngredients.Length > 0)
-                {
-                    if (addedIngredients[i] < neededIngredients[i])
-                    {
-                        addedIngredients[i]++;
-                    }
-                    else addedIngredients = new byte[12];
-                }
-                else addedIngredients[i]++;
-                canSubmit = true;
-                SetIngredientText(inputsToCheck[i]);
-                PrintWall();
+                MatchKey(inputsToCheck[i],i);
             }
+        }
+    }
+
+    public void ButtonClick(string letter)
+    {
+        KeyCode clickedButton = (KeyCode)System.Enum.Parse(typeof(KeyCode), letter);
+        for (int i = 0; i < inputsToCheck.Length; i++)
+        {
+            if (clickedButton == inputsToCheck[i])
+            {
+                MatchKey(inputsToCheck[i], i);
+            }
+        }
+    }
+
+    void MatchKey(KeyCode keyPress, int position)
+    {
+        if (keyPress == inputsToCheck[position])
+        {
+            if (neededIngredients.Length > 0)
+            {
+                if (addedIngredients[position] < neededIngredients[position])
+                {
+                    addedIngredients[position]++;
+                }
+                else addedIngredients = new byte[12];
+            }
+            else addedIngredients[position]++;
+            canSubmit = true;
+            SetIngredientText(inputsToCheck[position]);
+            PrintWall();
+        }
     }
 
     void ResetPotion()
