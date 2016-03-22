@@ -117,7 +117,6 @@ public class ImprovedLineRenderer : MonoBehaviour {
     {
         Vector3 a = points[aIndex], b = points[bIndex];
         float angleBetween = AngleBetween(a, b);
-        int vertexCount = vertices.Count;
         SetVertex(a, aIndex * 4, angleBetween);
         SetVertex(b, aIndex * 4 + 2, angleBetween);
     }

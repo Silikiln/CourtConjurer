@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Handles the logic for the order specific potion ritual
 /// </summary>
 public class PotionRitual : Ritual {
-    private byte[] neededIngredients = new byte[0];
-    private byte[] addedIngredients = new byte[12];
+    public Color neutralColor, goodColor, badColor;
+
+    private byte[] correctIngredients;
+    private List<byte> addedIngredients = new List<byte>();
     private KeyCode[] inputsToCheck = {
         KeyCode.Q, KeyCode.W, KeyCode.E, KeyCode.R,
         KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.F,
@@ -18,14 +21,15 @@ public class PotionRitual : Ritual {
     private string currentIngredientString = "";
 
     void Start()
-    {
+    {        
         ResetPotion();
     }
 
     public override void ShowRitual()
     {
         base.ShowRitual();
-        PrintWall();
+        correctIngredients = BookmarkedCreatureComponentData();
+        UpdateIngredientText();
     }
 
     // Update is called once per frame
@@ -37,67 +41,40 @@ public class PotionRitual : Ritual {
         if (Input.GetKeyDown(KeyCode.Backspace))
             ResetPotion();
 
-        for (int i = 0; i < inputsToCheck.Length; i++)
-        {
-            if(Input.GetKeyDown(inputsToCheck[i]))
-            {
-                MatchKey(inputsToCheck[i],i);
-            }
-        }
+        for (int i = 0; i < inputsToCheck.Length; i++)        
+            if (Input.GetKeyDown(inputsToCheck[i]))
+                AddIngredient(i);        
     }
 
-    public void ButtonClick(string letter)
+    public void AddIngredient(int ingredientIndex)
     {
-        KeyCode clickedButton = (KeyCode)System.Enum.Parse(typeof(KeyCode), letter);
-        for (int i = 0; i < inputsToCheck.Length; i++)
-        {
-            if (clickedButton == inputsToCheck[i])
-            {
-                MatchKey(inputsToCheck[i], i);
-            }
-        }
+        addedIngredients.Add((byte)ingredientIndex);
+        canSubmit = true;
+        SetIngredientText(inputsToCheck[ingredientIndex]);
     }
 
-    void MatchKey(KeyCode keyPress, int position)
+    void UpdateIngredientText()
     {
-        if (keyPress == inputsToCheck[position])
-        {
-            if (neededIngredients.Length > 0)
-            {
-                if (addedIngredients[position] < neededIngredients[position])
-                {
-                    addedIngredients[position]++;
-                }
-                else addedIngredients = new byte[12];
-            }
-            else addedIngredients[position]++;
-            canSubmit = true;
-            SetIngredientText(inputsToCheck[position]);
-            PrintWall();
-        }
+        if (ingredientText == null)
+            ingredientText = ingredientDisplay.transform.GetComponent<TextMesh>();
+
+        if (addedIngredients.Count == 0 || correctIngredients == null)
+            ingredientText.color = neutralColor;
+        else if (addedIngredients.Count <= correctIngredients.Length &&
+            correctIngredients.Take(addedIngredients.Count).SequenceEqual(addedIngredients))
+            ingredientText.color = goodColor;
+        else
+            ingredientText.color = badColor;
+               
     }
 
     void ResetPotion()
     {
         currentIngredientString = "";
-        ingredientText = ingredientDisplay.transform.GetComponent<TextMesh>();
         ingredientText.text = ". . .";
-        addedIngredients = new byte[12];
+        addedIngredients.Clear();
         canSubmit = false;
-    }
-
-    /// <summary>
-    /// Prints the current state of the potion
-    /// </summary>
-    void PrintWall()
-    {
-        for (int i = 0; i < 12; i += 4)
-        {
-            string line = "";
-            for (int x = 0; x < 4; x++)
-                line += string.Format("{0}/{1}  ", addedIngredients[i + x], neededIngredients.Length > 0 ? neededIngredients[i + x].ToString() : "?");
-            Debug.Log(line);
-        }
+        UpdateIngredientText();
     }
 
     protected override Component GetCurrentComponent()
@@ -113,5 +90,6 @@ public class PotionRitual : Ritual {
     {
         currentIngredientString = currentIngredientString + code;
         ingredientText.text = currentIngredientString;
+        UpdateIngredientText();
     }
 }
