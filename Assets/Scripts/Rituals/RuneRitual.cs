@@ -2,136 +2,128 @@
 using System.Collections.Generic;
 using System;
 
+/// <summary>
+/// Handles the logic for the symbol drawing rune ritual
+/// </summary>
 public class RuneRitual : Ritual {
+    public Color correctColor = Color.green, neutralColor = Color.blue, incorrectColor = Color.red;
+
     List<byte> pointsConnected = new List<byte>();
-    LineRenderer lineRenderer;
-    Vector2 location;
-    public Color good = Color.green;
-    public Color neutral = Color.blue;
-    public Color bad = Color.red;
-    //int lineCount = 0;
-    //int currentPosition = 0;
-    float startPointDistance;
-    float nextPointDistance;
-    float tempDistance;
-    Vector2[] pointVectors = new Vector2[9];
-    public Vector2[] matchPattern = new Vector2[5];
+    ImprovedLineRenderer lineRenderer;
+    bool drawing = false;
 
-    void Start()
+    byte[] properPoints;
+
+    public override void ShowRitual()
     {
-        canSubmit = true;
+        base.ShowRitual();
+        if (lineRenderer == null) lineRenderer = gameObject.GetComponent<ImprovedLineRenderer>();
+        if (RunePoint.parentScript == null) RunePoint.parentScript = this;
 
-        for (int x = -1; x <= 1; x++)
-            for (int y = 1; y >= -1; y--)
-                pointVectors[y * -1 + 1 + (x + 1) * 3] = new Vector2(x * 2, y * 2);
+        lineRenderer.SetColor(new LineColor.Solid(neutralColor));
+        properPoints = BookmarkedCreatureComponentData();
 
-        startPointDistance = 9999;
-        nextPointDistance = 9999;
-
-        lineRenderer = gameObject.GetComponent<LineRenderer>();
-        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-        lineRenderer.SetWidth(0.1f, 0.1f);
-        lineRenderer.SetColors(neutral, neutral);
+        CheckCorrectness();
     }
 
-    void OnMouseOver()
+    Vector3 MousePosition()
     {
-        location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (Input.GetMouseButtonDown(0))
+        return Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0, 0, 9);
+    }
+
+    // When a point has been clicked
+    public void PointClicked(int index, Vector3 pointPosition)
+    {
+        drawing = true;
+
+        if (!pointsConnected.Contains((byte) index))
         {
-            pointsConnected = new List<byte>();
-            lineRenderer.SetVertexCount(1);
-            lineRenderer.SetColors(neutral, neutral);
-            //currentPosition = 0;
-            startPointDistance = 9999;
-
-            byte closest = 0;
-            for (int i = 0; i < pointVectors.Length; i++)
+            if (pointsConnected.Count == 1)
             {
-                tempDistance = Vector2.Distance(location, pointVectors[i]);
-
-                if (tempDistance < startPointDistance)
-                {
-                    startPointDistance = tempDistance;
-                    closest = (byte) i;
-                }
+                pointsConnected.RemoveAt(0);
+                lineRenderer.RemovePoint(0);
             }
 
-            pointsConnected.Add(closest);
-            //lineRenderer.SetPosition(currentPosition, closestPoint);
-            //currentPosition++;
+            pointsConnected.Add((byte)index);
+            lineRenderer.AddPoint(pointPosition);
+        } else
+        {
+            int connectedIndex = pointsConnected.IndexOf((byte)index);
+            while (pointsConnected.Count > connectedIndex + 1)
+            {
+                pointsConnected.RemoveAt(pointsConnected.Count - 1);
+                lineRenderer.RemovePoint(lineRenderer.Count - 1);
+            }
         }
 
-        if (Input.GetMouseButtonDown(1))
+        CheckCorrectness();
+        lineRenderer.AddPoint(MousePosition());
+    }
+
+    // When a point has been moused over
+    public void PointMousedOver(int index, Vector3 pointPosition)
+    {
+        if (!drawing) return;
+
+        if (pointsConnected.Count > 1 && pointsConnected[pointsConnected.Count - 1] == index)
         {
-            pointsConnected = new List<byte>();
-            lineRenderer.SetColors(neutral, neutral);
-            //currentPosition = 0;
+            pointsConnected.RemoveAt(pointsConnected.Count - 1);
+            lineRenderer.RemovePoint(lineRenderer.Count - 1);
+            lineRenderer.SetPoint(lineRenderer.Count - 1, MousePosition());
+        } else if (!pointsConnected.Contains((byte) index))
+        {
+            pointsConnected.Add((byte)index);
+            lineRenderer.SetPoint(lineRenderer.Count - 1, pointPosition);
+            lineRenderer.AddPoint(MousePosition());
         }
+
+        CheckCorrectness();
+        canSubmit = pointsConnected.Count > 1;
+    }
+
+    public void MouseButtonReleased()
+    {
+        drawing = false;
+        lineRenderer.RemovePoint(lineRenderer.Count - 1);
+    }
+
+    void CheckCorrectness()
+    {
+        if (properPoints == null) return;
+
+        bool proper = properPoints.Length >= pointsConnected.Count;
+        for (int i = 0; proper && i < pointsConnected.Count; i++)
+            proper = properPoints[i] == pointsConnected[i];
+
+        lineRenderer.SetColor(new LineColor.Solid(proper ? correctColor : incorrectColor));
     }
 
     void Update()
     {
-        if (IsClosing())
-            return;
-
-        if (pointsConnected.Count > 0 && IsSubmitting())
+        if (IsClosing() || IsSubmitting())
             return;
 
         if (Input.GetKeyDown(KeyCode.Backspace))
             ResetPoints();
 
-        nextPointDistance = 9999;
+        if (!drawing) return;
 
-        if (Input.GetMouseButton(0))
-        {
-            for (int i = 0; i < pointVectors.Length; i++)
-            {
-                nextPointDistance = Vector2.Distance(location, pointVectors[i]);
-
-                if (nextPointDistance <= 0.4 && !pointsConnected.Contains((byte)i))
-                {
-                    pointsConnected.Add((byte)i);
-                }
-            }
-        }
-        if (pointsConnected != null)
-        {
-            if (Input.GetMouseButtonUp(0))
-            {
-                lineRenderer.SetVertexCount(pointsConnected.Count);
-                if (pointsConnected.Count > 0)
-                    pointsConnected.RemoveAt(pointsConnected.Count - 1);
-            }
-            else
-            {
-                lineRenderer.SetVertexCount(pointsConnected.Count + 1);
-            }
-            for (int i = 0; i < pointsConnected.Count; i++)
-            {
-                lineRenderer.SetPosition(i, pointVectors[pointsConnected[i]]);
-            }
-
-            if (Input.GetMouseButton(0))
-            {
-                location = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                lineRenderer.SetPosition(pointsConnected.Count, location);
-            }
-        }
-        else
-        {
-            lineRenderer.SetVertexCount(0);
-        }
+        lineRenderer.SetPoint(lineRenderer.Count - 1, MousePosition());
     }
 
     void ResetPoints()
     {
         pointsConnected.Clear();
-        lineRenderer.SetVertexCount(0);
+        lineRenderer.Clear();
+        canSubmit = false;
     }
 
     protected override Component GetCurrentComponent()
     {
         return new Component(Component.Type.Rune, pointsConnected);
+    }
+    public override Component.Type GetRitualType()
+    {
+        return Component.Type.Rune;
     }
 }

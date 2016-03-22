@@ -1,37 +1,65 @@
 ﻿using System.Collections.Generic;
 
+/// <summary>
+/// Contains all the data to handle each type of possible component
+/// </summary>
 public class Component
 {
-    public enum Type { Incantation, Rune, Bell, Effigy, Potion }
+    public enum Type { Incantation, Rune, Bell, Effigy, Potion, None}
 
     public Type ComponentType { get; private set; }
     public string Incantation { get; private set; }
 
-    // Rune - Connected points
+    // Rune -   Connected points
     // Effigy - Cuts made
     // Potion - Ingredients added
-    // Bell - Bells played
+    // Bell -   Bells played
     private List<byte> data;
 
+    /// <summary>
+    /// Create a new incantation component
+    /// </summary>
+    /// <param name="incantation">The actual incantation</param>
     public Component(string incantation)
     {
         ComponentType = Type.Incantation;
         Incantation = incantation;
     }
 
+    /// <summary>
+    /// Create a new component
+    /// </summary>
+    /// <param name="componentType">The type of component</param>
+    /// <param name="data">The data part of the component</param>
     public Component(Type componentType, List<byte> data)
     {
         this.ComponentType = componentType;
         this.data = data;
     }
 
+    /// <summary>
+    /// Create a new component with no data
+    /// </summary>
+    /// <param name="componentType">The type of component</param>
     public Component(Type componentType) {
         this.ComponentType = componentType;
         data = new List<byte>();
     }
 
+    public byte[] GetData() { return data.ToArray(); }
+
+    /// <summary>
+    /// Add data to the component
+    /// </summary>
+    /// <param name="data">The data to add</param>
     public void addData(byte data) { this.data.Add(data); }
 
+    /// <summary>
+    /// Determines if the provided component matches this one
+    /// </summary>
+    /// <param name="other">The other commponent</param>
+    /// <param name="possibleNames">The list of possible creature names (for replacement)</param>
+    /// <returns></returns>
     public bool MatchesComponent(Component other, List<string> possibleNames)
     {
         if (this.ComponentType != other.ComponentType)
@@ -58,6 +86,9 @@ public class Component
         return false;
     }
 
+    /// <summary>
+    /// Converts the content of the component's data to a string
+    /// </summary>
     public string GetContent()
     {
         string result = "";
