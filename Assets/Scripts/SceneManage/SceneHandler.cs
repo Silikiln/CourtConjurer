@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class SceneHandler : MonoBehaviour {
-
+    public GameObject ritualToOpen;
 	// Use this for initialization
 	void Start () {
         //launch ritual stuff
-        Debug.Log("HELLO WORLD");
+        ritualToOpen.GetComponent<Ritual>().ShowRitual();
 	}
 	
 }

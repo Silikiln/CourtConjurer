@@ -23,6 +23,7 @@ public class IncantationRitual : Ritual {
 
     void Start()
     {
+        Debug.Log("Starting");
         ScrollPosition.xPositions = new float[xPositionMarkers.Length];
         ScrollPosition.yPositions = new float[xPositionMarkers.Length];
         ScrollPosition.takenPositions = new Scroll[xPositionMarkers.Length];

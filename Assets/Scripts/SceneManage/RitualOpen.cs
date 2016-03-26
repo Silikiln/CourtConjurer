@@ -6,7 +6,6 @@ using System.Collections;
 /// Handles the logic for opening a specified ritual
 /// </summary>
 public class RitualOpen : MonoBehaviour {
-    public GameObject ritualToOpen;
     public Sprite highlightSprite;
     public string sceneToLoad;
 

@@ -1395,9 +1395,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a6520fbc215dc40b1527215671352d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ritualToOpen: {fileID: 1623621977}
   highlightSprite: {fileID: 21300000, guid: 5d0347819fbedbe499c1c9136354e122, type: 3}
-  sceneToLoad: 
+  sceneToLoad: Potion
 --- !u!212 &351337563
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4725,7 +4724,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a6520fbc215dc40b1527215671352d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ritualToOpen: {fileID: 877128446}
   highlightSprite: {fileID: 21300000, guid: 5d0347819fbedbe499c1c9136354e122, type: 3}
   sceneToLoad: 
 --- !u!212 &1231998598
@@ -6215,9 +6213,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a6520fbc215dc40b1527215671352d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ritualToOpen: {fileID: 112942881}
   highlightSprite: {fileID: 21300000, guid: 5d0347819fbedbe499c1c9136354e122, type: 3}
-  sceneToLoad: 
+  sceneToLoad: Bell
 --- !u!212 &1518328948
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6318,9 +6315,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a6520fbc215dc40b1527215671352d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ritualToOpen: {fileID: 519896922}
   highlightSprite: {fileID: 21300000, guid: 5d0347819fbedbe499c1c9136354e122, type: 3}
-  sceneToLoad: 
+  sceneToLoad: Rune
 --- !u!212 &1520573984
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8491,7 +8487,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a6520fbc215dc40b1527215671352d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ritualToOpen: {fileID: 880700486}
   highlightSprite: {fileID: 21300000, guid: 5d0347819fbedbe499c1c9136354e122, type: 3}
   sceneToLoad: Incantation
 --- !u!212 &1995098739
@@ -8895,9 +8890,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a6520fbc215dc40b1527215671352d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ritualToOpen: {fileID: 585713595}
   highlightSprite: {fileID: 21300000, guid: 5d0347819fbedbe499c1c9136354e122, type: 3}
-  sceneToLoad: 
+  sceneToLoad: Beastiary
 --- !u!212 &2067490242
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9060,9 +9054,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a6520fbc215dc40b1527215671352d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ritualToOpen: {fileID: 754463193}
   highlightSprite: {fileID: 21300000, guid: 5d0347819fbedbe499c1c9136354e122, type: 3}
-  sceneToLoad: 
+  sceneToLoad: Effigy
 --- !u!212 &2093961991
 SpriteRenderer:
   m_ObjectHideFlags: 0
