@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 /// <summary>
@@ -7,6 +8,7 @@ using System.Collections;
 public class RitualOpen : MonoBehaviour {
     public GameObject ritualToOpen;
     public Sprite highlightSprite;
+    public string sceneToLoad;
 
     private GameObject highlightObject;
 
@@ -25,7 +27,20 @@ public class RitualOpen : MonoBehaviour {
 
     void OnMouseUpAsButton()
     {
-        ritualToOpen.GetComponent<Ritual>().ShowRitual();
+        loadNewScene();
         if (highlightObject != null) GameObject.Destroy(highlightObject);
+    }
+
+    public void loadNewScene()
+    {
+        if (!sceneToLoad.Equals(""))
+        {
+            //start the animation(couroutine?)
+            //load scene as additive
+            SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+            GameManager.desk.SetActive(false);
+        }
+        else
+            Debug.Log("No Specified Scene");
     }
 }
