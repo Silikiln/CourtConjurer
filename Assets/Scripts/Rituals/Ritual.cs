@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// The base class for each ritual
@@ -39,6 +40,10 @@ public abstract class Ritual : MonoBehaviour {
         gameObject.SetActive(false);
         GameManager.desk.SetActive(true);
         CurrentRitual = null;
+
+        //unload the scene, if there are more than two scenes in the future this will need to be adjusted slightly
+        Debug.Log("Number Of Scenes: " + SceneManager.sceneCount);
+        SceneManager.UnloadScene(SceneManager.GetSceneAt(SceneManager.sceneCount - 1).name);
     }
 
     /// <summary>

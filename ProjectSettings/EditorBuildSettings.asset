@@ -4,4 +4,22 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_Scenes/StartScreen.unity
+  - enabled: 1
+    path: Assets/_Scenes/Desk.unity
+  - enabled: 1
+    path: Assets/_Scenes/RitualScenes/Incantation.unity
+  - enabled: 1
+    path: Assets/_Scenes/RitualScenes/Effigy.unity
+  - enabled: 1
+    path: Assets/_Scenes/RitualScenes/Bell.unity
+  - enabled: 1
+    path: Assets/_Scenes/RitualScenes/Beastiary.unity
+  - enabled: 1
+    path: Assets/_Scenes/RitualScenes/Rune.unity
+  - enabled: 1
+    path: Assets/_Scenes/RitualScenes/Potion.unity
+  - enabled: 1
+    path: Assets/_Scenes/RitualScenes/Order.unity
