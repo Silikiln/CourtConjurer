@@ -1400,7 +1400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightSprite: {fileID: 21300000, guid: 5d0347819fbedbe499c1c9136354e122, type: 3}
-  sceneToLoad: 
+  sceneToLoad: Order
 --- !u!212 &1231998598
 SpriteRenderer:
   m_ObjectHideFlags: 0
