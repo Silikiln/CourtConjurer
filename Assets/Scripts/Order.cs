@@ -15,16 +15,16 @@ public class Order {
     /// <summary>
     /// The components the player has submitted for this order
     /// </summary>
-    public static List<Component> SubmittedComponents;
+    public static List<RitualComponent> SubmittedComponents;
 
     /// <summary>
     /// Generate the next order the player needs to fulfill
     /// </summary>
     public static void GenerateOrder()
     {
-        SubmittedComponents = new List<Component>();
+        SubmittedComponents = new List<RitualComponent>();
         CurrentOrder = new Order();
-        CurrentOrder.RequiredAttribute = Creature.uniqueAttributes[Random.Range(0, Creature.uniqueAttributes.Count)];
+        CurrentOrder.RequiredAttribute = "";// Creature.uniqueAttributes[Random.Range(0, Creature.uniqueAttributes.Count)];
     }
 
     /// <summary>

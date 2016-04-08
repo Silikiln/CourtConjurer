@@ -2,88 +2,19 @@
   <Creature>
 	  <Title>Minotaur</Title>
 	  <Type>Beast</Type>
-	  <Attributes>
-		  <Attribute>Strong</Attribute>
-	  </Attributes>
+    <STR>6</STR>
+    <AGI>3</AGI>
+    <INT>1</INT>
+    <CHR>1</CHR>
 	  <Rituals>
-			  <Potion>
-				  <Material>0</Material>
-				  <Material>1</Material>
-				  <Material>2</Material>
-			  </Potion>
-        <Effigy>
-          <Element>0</Element>
-          <Element>1</Element>
-          <Element>2</Element>
-        </Effigy>      
+        <Totem>
+          <Material>000</Material>
+          <Material>010</Material>
+          <Material>000</Material>
+          <Material>000</Material>
+          <Material>010</Material>
+          <Material>000</Material>
+        </Totem>      
 	  </Rituals>
-  </Creature>
-  <Creature>
-	  <Title>Succubus</Title>
-	  <Type>Demon</Type>
-	  <Names>
-		  <Name>T'set</Name>
-		  <Name>Ael'thea</Name>
-		  <Name>Aezevere</Name>
-		  <Name>Catt'nvaeth</Name>
-		  <Name>Miirzola</Name>
-	  </Names>
-	  <Attributes>
-		  <Attribute>Distracting</Attribute>
-		  <Attribute>Infiltrate</Attribute>
-		  <Attribute>Raise Morale</Attribute>
-	  </Attributes>
-	  <Rituals>
-			  <Rune>
-          <Point>0</Point>
-          <Point>1</Point>
-          <Point>3</Point>
-          <Point>2</Point>
-          <Point>4</Point>
-          <Point>7</Point>
-        </Rune>
-			  <Incantation>a ~ b</Incantation>
-	  </Rituals>
-  </Creature>
-  <Creature>
-	  <Title>Wraith</Title>
-	  <Type>Spirit</Type>
-	  <Attributes>
-		  <Attribute>Strong</Attribute>
-		  <Attribute>Distracting</Attribute>
-	  </Attributes>
-	  <Rituals>
-			  <Bells>
-				  <Bell>1</Bell>
-				  <Bell>0</Bell>
-				  <Bell>2</Bell>
-				  <Bell>0</Bell>
-          <Bell>4</Bell>
-			  </Bells>
-			  <Incantation>AB</Incantation>
-	  </Rituals>
-  </Creature>
-  <Creature>
-    <Title>Hydra</Title>
-    <Type>Beast</Type>
-    <Attributes>
-      <Attribute>Resilient</Attribute>
-      <Attribute>Poisonous</Attribute>
-    </Attributes>
-    <Rituals>
-      <Effigy>
-        <Element>5</Element>
-        <Element>1</Element>
-        <Element>1</Element>
-        <Element>5</Element>
-      </Effigy>
-      <Bells>
-        <Bell>3</Bell>
-        <Bell>2</Bell>
-        <Bell>3</Bell>
-        <Bell>4</Bell>
-        <Bell>4</Bell>
-      </Bells>
-    </Rituals>
   </Creature>
 </Creatures>

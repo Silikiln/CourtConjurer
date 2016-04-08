@@ -23,8 +23,7 @@ public class Creature
 
         using (XmlReader reader = XmlReader.Create("Assets/CreatureList.xml"))
         {
-            Component component = new Component(Component.Type.Bell);
-
+            List<RitualMaterial> ritualMaterials = new List<RitualMaterial>();
             Creature currentCreature = new Creature();
             reader.ReadToFollowing("Creature");
             while (!reader.EOF)
@@ -48,35 +47,28 @@ public class Creature
                             if (!uniqueAttributes.Contains(attr))
                                 uniqueAttributes.Add(attr);
                             break;
+                        case "STR":
+                            currentCreature.STR = byte.Parse(reader.ReadInnerXml());
+                            break;
+                        case "AGI":
+                            currentCreature.AGI = byte.Parse(reader.ReadInnerXml());
+                            break;
+                        case "INT":
+                            currentCreature.INT = byte.Parse(reader.ReadInnerXml());
+                            break;
+                        case "CHR":
+                            currentCreature.CHR = byte.Parse(reader.ReadInnerXml());
+                            break;
                         case "Name":
                             currentCreature.Names.Add(reader.ReadInnerXml());
                             break;
-                        case "Bells":
-                            component = new Component(Component.Type.Bell);
+
+                        case "Totem":
+                            ritualMaterials = new List<RitualMaterial>();
                             break;
-                        case "Bell":
-                            component.addData(byte.Parse(reader.ReadInnerXml()));
-                            break;
-                        case "Effigy":
-                            component = new Component(Component.Type.Effigy);
-                            break;
-                        case "Element":
-                            component.addData(byte.Parse(reader.ReadInnerXml()));
-                            break;
-                        case "Incantation":
-                            currentCreature.RequiredComponents.Add(new Component(reader.ReadInnerXml().ToUpper()));
-                            break;
-                        case "Potion":
-                            component = new Component(Component.Type.Potion);
-                            break;
+
                         case "Material":
-                            component.addData(byte.Parse(reader.ReadInnerXml()));
-                            break;
-                        case "Rune":
-                            component = new Component(Component.Type.Rune);
-                            break;
-                        case "Point":
-                            component.addData(byte.Parse(reader.ReadInnerXml()));
+                            ritualMaterials.Add(RitualMaterial.GetRitualMaterial(reader.ReadInnerXml()));
                             break;
                     }
                 else
@@ -85,11 +77,13 @@ public class Creature
                         case "Creature":
                             loadedCreatures.Add(currentCreature);
                             break;
-                        case "Bells":
-                        case "Effigy":
+                        case "Totem":
+                            currentCreature.RequiredComponents.Add(new TotemComponent(ritualMaterials));
+                            break;
+                        case "Bells":                        
                         case "Potion":
                         case "Rune":
-                            currentCreature.RequiredComponents.Add(component);
+                        case "Incantation":
                             break;
                     }
             }
@@ -101,15 +95,15 @@ public class Creature
     /// </summary>
     /// <param name="toCheck">The component to check</param>
     /// <returns>A list of all of the creatures with that component</returns>
-    public static List<Creature> CreaturesWithComponent(Component toCheck)
+    public static List<Creature> CreaturesWithComponent(RitualComponent toCheck)
     {
         List<Creature> matchedCreatures = new List<Creature>();
 
         foreach (Creature c in loadedCreatures)
-            foreach (Component otherComponent in c.RequiredComponents)
+            foreach (RitualComponent otherComponent in c.RequiredComponents)
                 // If the creature has the component, add it to the list
                 // Move to the next creature
-                if (toCheck.MatchesComponent(otherComponent, c.Names))
+                if (toCheck.Equals(otherComponent))
                 {
                     matchedCreatures.Add(c);
                     break;
@@ -123,7 +117,7 @@ public class Creature
     /// </summary>
     /// <param name="componentsToCheck">The components to check</param>
     /// <returns>A list of all of the creatures with all of the components</returns>
-    public static List<Creature> CreaturesWithComponents(List<Component> componentsToCheck)
+    public static List<Creature> CreaturesWithComponents(List<RitualComponent> componentsToCheck)
     {
         if (componentsToCheck.Count == 0)
             return new List<Creature>();
@@ -131,7 +125,7 @@ public class Creature
         List<Creature> matchedCreatures = CreaturesWithComponent(componentsToCheck[0]);
         componentsToCheck.RemoveAt(0);
 
-        foreach (Component component in componentsToCheck)
+        foreach (RitualComponent component in componentsToCheck)
             matchedCreatures.Intersect(CreaturesWithComponent(component));
 
         return matchedCreatures;
@@ -155,6 +149,11 @@ public class Creature
     /// </summary>
     public List<string> Names = new List<string>();
 
+    public byte STR { get; private set; }
+    public byte AGI { get; private set; }
+    public byte INT { get; private set; }
+    public byte CHR { get; private set; }
+
     /// <summary>
     /// The list of attributes this creature has
     /// </summary>
@@ -163,7 +162,7 @@ public class Creature
     /// <summary>
     /// The components required to summon this creature
     /// </summary>
-    public List<Component> RequiredComponents = new List<Component>();
+    public List<RitualComponent> RequiredComponents = new List<RitualComponent>();
 
     /// <summary>
     /// Determines if the provided components can satisfy
@@ -174,17 +173,17 @@ public class Creature
     /// Whether this creature can be summoned using the
     /// provided components
     /// </returns>
-    public bool fulfillsRequirements(List<Component> componentsToCheck)
+    public bool fulfillsRequirements(List<RitualComponent> componentsToCheck)
     {
         if (RequiredComponents.Count > componentsToCheck.Count)
             return false;
 
         // Copy the required components
-        List<Component> copiedComponents = new List<Component>(RequiredComponents);
-        foreach (Component toCheck in componentsToCheck)
+        List<RitualComponent> copiedComponents = new List<RitualComponent>(RequiredComponents);
+        foreach (RitualComponent toCheck in componentsToCheck)
         {
             for (int i = 0; i < copiedComponents.Count; i++)
-                if (toCheck.MatchesComponent(copiedComponents[i], Names))
+                if (toCheck.Equals(copiedComponents[i]))
                 {
                     // Remove the matched required component from future checks
                     copiedComponents.RemoveAt(i);
@@ -212,9 +211,9 @@ public class Creature
         return creatureSprite;
     }
 
-    public bool HasComponentOfType(Component.Type matchingType) { return RequiredComponents.Exists(c => c.ComponentType == matchingType); }
+    public bool HasComponentOfType(RitualComponent.Type matchingType) { return RequiredComponents.Exists(c => c.ComponentType == matchingType); }
 
-    public Component GetFirstComponentOfType(Component.Type matchingType)
+    public RitualComponent GetFirstComponentOfType(RitualComponent.Type matchingType)
     {
         return RequiredComponents.FirstOrDefault(c => c.ComponentType == matchingType);
     }

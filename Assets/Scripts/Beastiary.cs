@@ -75,7 +75,7 @@ public class Beastiary : Ritual {
             {
                 // If a required component has been submitted, add a check mark
                 t.gameObject.GetComponent<SpriteRenderer>().enabled = Order.SubmittedComponents.Exists(
-                    c => c.MatchesComponent(currentCreature.RequiredComponents[i], currentCreature.Names));
+                    c => c.Equals(currentCreature.RequiredComponents[i]));
                 i++;
             }
     }
@@ -94,11 +94,13 @@ public class Beastiary : Ritual {
 
         // TODO
         // Text wrapping for longer attributes
+        /*
         string attributes = currentCreature.Attributes[0];
         for (int i = 1; i < currentCreature.Attributes.Count; i++)
             attributes += ", " + currentCreature.Attributes[i];
+            
         attributeText.GetComponent<TextMesh>().text = attributes;
-
+        */
         // Display each required component
         for (int i = 0; i < currentCreature.RequiredComponents.Count; i++)
         {
@@ -106,8 +108,7 @@ public class Beastiary : Ritual {
             componentInfo.transform.parent = transform;
             componentInfo.transform.position = new Vector3(xOffset, yOffset - yBetween * i);
             componentInfo.transform.FindChild("Type Text").GetComponent<TextMesh>().text = currentCreature.RequiredComponents[i].ComponentType.ToString();
-            componentInfo.transform.FindChild("Content Text").GetComponent<TextMesh>().text = currentCreature.RequiredComponents[i].GetContent();
-            componentInfo.GetComponent<SpriteRenderer>().enabled = Order.SubmittedComponents.Exists(c => c.MatchesComponent(currentCreature.RequiredComponents[i], currentCreature.Names));
+            componentInfo.GetComponent<SpriteRenderer>().enabled = Order.SubmittedComponents.Exists(c => c.Equals(currentCreature.RequiredComponents[i]));
         }
         creatureImage.GetComponent<SpriteRenderer>().sprite = currentCreature.FetchCreatureSprite();
     }
@@ -116,10 +117,5 @@ public class Beastiary : Ritual {
     {
         BookmarkedPanel.BookmarkedCreature = currentCreature;
         base.CloseRitual();
-    }
-
-    protected override Component GetCurrentComponent()
-    {
-        throw new NotImplementedException();
     }
 }

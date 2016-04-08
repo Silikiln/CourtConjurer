@@ -80,7 +80,7 @@ public class ViewOrder : Ritual
 
         // Display each component that has been submitted
         i = 0;
-        foreach (Component c in Order.SubmittedComponents)
+        foreach (RitualComponent c in Order.SubmittedComponents)
         {
             GameObject componentInfo = GameObject.Instantiate(componentPrefab);
             componentInfo.transform.parent = transform;
@@ -90,17 +90,12 @@ public class ViewOrder : Ritual
 
 
             componentInfo.transform.FindChild("Type Text").GetComponent<TextMesh>().text = c.ComponentType.ToString();
-            componentInfo.transform.FindChild("Content Text").GetComponent<TextMesh>().text = c.GetContent();
+            //componentInfo.transform.FindChild("Content Text").GetComponent<TextMesh>().text = c.GetContent();
 
             //componentInfo.GetComponent<SpriteRenderer>().enabled = true;
 
             // Move to the next row
             i++;
         }
-    }
-
-    protected override Component GetCurrentComponent()
-    {
-        throw new NotImplementedException();
     }
 }

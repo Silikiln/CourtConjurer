@@ -61,16 +61,11 @@ public class BellRitual : Ritual
     public override void ShowRitual()
     {
         base.ShowRitual();
-        BellSlide.ProperLocations = BookmarkedCreatureComponentData();
+        //BellSlide.ProperLocations = BookmarkedCreatureComponent();
     }
 
-    protected override Component GetCurrentComponent()
+    public override RitualComponent.Type GetRitualType()
     {
-        return new Component(Component.Type.Bell, bells.Select(b => b.GetComponent<BellSlide>().GetIndex()).ToList());
-    }
-
-    public override Component.Type GetRitualType()
-    {
-        return Component.Type.Bell;
+        return RitualComponent.Type.Bell;
     }
 }

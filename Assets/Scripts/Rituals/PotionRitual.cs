@@ -28,7 +28,7 @@ public class PotionRitual : Ritual {
     public override void ShowRitual()
     {
         base.ShowRitual();
-        correctIngredients = BookmarkedCreatureComponentData();
+        //correctIngredients = BookmarkedCreatureComponent();
         UpdateIngredientText();
     }
 
@@ -75,15 +75,6 @@ public class PotionRitual : Ritual {
         addedIngredients.Clear();
         canSubmit = false;
         UpdateIngredientText();
-    }
-
-    protected override Component GetCurrentComponent()
-    {
-        return new Component(Component.Type.Potion, new List<byte>(addedIngredients));
-    }
-    public override Component.Type GetRitualType()
-    {
-        return Component.Type.Potion;
     }
 
     void SetIngredientText(KeyCode code)

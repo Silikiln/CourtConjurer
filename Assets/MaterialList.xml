@@ -1,0 +1,14 @@
+﻿<Materials>
+  <Totem>
+    <Material>
+      <ID>000</ID>
+      <Name>Spark</Name>
+      <Description>The basic totem piece for the element of fire</Description>
+    </Material>
+    <Material>
+      <ID>010</ID>
+      <Name>Droplet</Name>
+      <Description>The basic totem piece for the element of water</Description>
+    </Material>
+  </Totem>
+</Materials>

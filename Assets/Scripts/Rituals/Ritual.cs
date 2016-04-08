@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System;
 
 /// <summary>
 /// The base class for each ritual
@@ -96,11 +97,11 @@ public abstract class Ritual : MonoBehaviour {
         return false;
     }
 
-    protected byte[] BookmarkedCreatureComponentData()
+    protected RitualComponent BookmarkedCreatureComponent()
     {
         return BookmarkedPanel.BookmarkedCreature != null &&
             BookmarkedPanel.BookmarkedCreature.HasComponentOfType(GetRitualType()) ?
-            BookmarkedPanel.BookmarkedCreature.GetFirstComponentOfType(GetRitualType()).GetData() : null;
+            BookmarkedPanel.BookmarkedCreature.GetFirstComponentOfType(GetRitualType()) : null;
     }
 
     protected bool BookmarkedCreatureHasComponent()
@@ -113,7 +114,7 @@ public abstract class Ritual : MonoBehaviour {
     /// Gets the current component result of the ritual6
     /// </summary>
     /// <returns></returns>
-    protected abstract Component GetCurrentComponent();
-    public virtual Component.Type GetRitualType() { return Component.Type.None; }
+    protected virtual RitualComponent GetCurrentComponent() { throw new NotImplementedException(); }
+    public virtual RitualComponent.Type GetRitualType() { return RitualComponent.Type.None; }
 }
 

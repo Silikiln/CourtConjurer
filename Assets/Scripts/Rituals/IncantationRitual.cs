@@ -121,21 +121,4 @@ public class IncantationRitual : Ritual {
         currentScroll.GetComponent<Scroll>().typed = "";
         typedMesh.text = "";
     }
-
-    protected override Component GetCurrentComponent()
-    {
-        string totalTyped = "";
-        for (int i =0; i< ScrollPosition.takenPositions.Length; i++)
-        {
-            if(ScrollPosition.takenPositions[i] != null && ScrollPosition.takenPositions[i].typed.Length > 0)
-            {
-                totalTyped += ScrollPosition.takenPositions[i].typed + " ";
-            }
-        }
-        return new Component(totalTyped.Trim());
-    }
-    public override Component.Type GetRitualType()
-    {
-        return Component.Type.Incantation;
-    }
 }

@@ -52,6 +52,9 @@ public class GameManager : MonoBehaviour {
     // Initialize the manager
     void Start()
     {
+        // Load the materials from external XML file
+        RitualMaterial.LoadMaterials();
+
         // Load the creatures from external XML file
         Creature.LoadCreatures();
 
