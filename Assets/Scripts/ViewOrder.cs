@@ -15,9 +15,9 @@ public class ViewOrder : Ritual
     public GameObject componentPrefab;
 
     // Offsets for the submitted component information
-    public float componentXOffset = .25f;
-    public float componentYOffset = 2.8f;
-    public float componentYBetween = 1.5f;
+    public float componentXOffset = .7f;
+    public float componentYOffset = 2f;
+    public float componentYBetween = 4f;
 
     // Offsets for the creatures ready to be summoned
     public float creatureXOffset = -8;
@@ -47,11 +47,11 @@ public class ViewOrder : Ritual
             if (t.tag == "Component") GameObject.Destroy(t.gameObject);
 
         // Display the current required attribute
-        orderText.GetComponent<TextMesh>().text = "Order: " + Order.CurrentOrder.RequiredAttribute;
+        orderText.GetComponent<TextMesh>().text = "Order";
 
         // Display each creature with the required attribute and ready to be summoned
         int i = 0;
-        foreach (Creature c in Creature.loadedCreatures.Where(c => c.Attributes.Contains(Order.CurrentOrder.RequiredAttribute) &&
+        foreach (Creature c in Creature.loadedCreatures.Where(c => Order.CurrentOrder.RequiredCreatures.Any(req => req.CreatureMatches(c)) &&
             c.fulfillsRequirements(Order.SubmittedComponents)))
         {
             GameObject creatureSelect = GameObject.Instantiate(creatureSelectPrefab);
@@ -84,15 +84,12 @@ public class ViewOrder : Ritual
         {
             GameObject componentInfo = GameObject.Instantiate(componentPrefab);
             componentInfo.transform.parent = transform;
-
-            // Position the component using the provided offsets
             componentInfo.transform.position = new Vector3(componentXOffset, componentYOffset - componentYBetween * i);
+            componentInfo.GetComponent<SpriteRenderer>().enabled = true;
 
-
-            componentInfo.transform.FindChild("Type Text").GetComponent<TextMesh>().text = c.ComponentType.ToString();
-            //componentInfo.transform.FindChild("Content Text").GetComponent<TextMesh>().text = c.GetContent();
-
-            //componentInfo.GetComponent<SpriteRenderer>().enabled = true;
+            GameObject ritualDisplay = c.GetComponentVisual();
+            ritualDisplay.transform.parent = componentInfo.transform.FindChild("RitualDisplay");
+            ritualDisplay.transform.localPosition = new Vector3(0, 0, transform.localPosition.z - 1);
 
             // Move to the next row
             i++;

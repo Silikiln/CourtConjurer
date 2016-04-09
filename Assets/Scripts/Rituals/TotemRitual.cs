@@ -11,7 +11,6 @@ public class TotemRitual : Ritual {
     public GameObject totem;
     public GameObject highlightTotem;
     public Sprite neutralHighlight, correctHighlight, incorrectHighlight;
-    public Sprite[] totemSprites;
 
     public int maxTotems = 6;
     public float heightDifference = 1.1f;
@@ -66,7 +65,9 @@ public class TotemRitual : Ritual {
     public override void ShowRitual()
     {
         base.ShowRitual();
-        correctTotemTypes = BookmarkedCreatureComponent().RitualMaterials;
+        if (BookmarkedCreatureHasComponent())
+            correctTotemTypes = BookmarkedCreatureComponent().RitualMaterials;
+        else correctTotemTypes = null;
         highlightTotem.GetComponent<SpriteRenderer>().sprite = neutralHighlight;
         HighlightTotem();
     }
@@ -92,11 +93,10 @@ public class TotemRitual : Ritual {
     void AddTotem()
     {
         GameObject newTotem = GameObject.Instantiate(totem);
-        newTotem.GetComponent<SpriteRenderer>().sprite = totemSprites[0];
         newTotem.transform.parent = transform;
 
         totemStack.Add(newTotem);
-        int totemType = (int)(Random.value * 9999) % availableMaterials.Count;
+        int totemType = Random.Range(0, availableMaterials.Count);
         totemTypeStack.Add((byte)totemType);
         newTotem.GetComponent<SpriteRenderer>().sprite = availableMaterials[totemType].GetMaterialSprite();
 

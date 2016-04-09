@@ -183,7 +183,7 @@ public class Creature
         foreach (RitualComponent toCheck in componentsToCheck)
         {
             for (int i = 0; i < copiedComponents.Count; i++)
-                if (toCheck.Equals(copiedComponents[i]))
+                if (toCheck.Matches(copiedComponents[i]))
                 {
                     // Remove the matched required component from future checks
                     copiedComponents.RemoveAt(i);

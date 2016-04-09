@@ -29,4 +29,25 @@ public class TotemComponent : RitualComponent
 
         return totem;
     }
+
+    public override bool Matches(RitualComponent c)
+    {
+        if (!base.Matches(c)) return false;
+
+        RitualMaterial[] otherMaterials = c.RitualMaterials;
+        if (ritualMaterials.Count != otherMaterials.Length) return false;
+
+        for (int i = 0; i < ritualMaterials.Count; i++)
+            if (!ritualMaterials[i].Equals(otherMaterials[i])) return false;
+
+        return true;
+    }
+
+    public override string ToString()
+    {
+        string result = "Totem:\n";
+        foreach (RitualMaterial m in ritualMaterials)
+            result += m.ToString() + "\n";
+        return result;
+    }
 }

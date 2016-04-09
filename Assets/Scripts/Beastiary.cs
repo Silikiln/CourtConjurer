@@ -15,9 +15,9 @@ public class Beastiary : Ritual {
     public Button targetCreatureButton;
 
     // Offsets for displaying required components
-    public float xOffset = .25f;
-    public float yOffset = 4f;
-    public float yBetween = 1.5f;
+    private float xOffset = .7f;
+    private float yOffset = 2f;
+    private float yBetween = 4f;
 
     private int currentCreatureIndex = 0;
     private Creature currentCreature;
@@ -27,14 +27,8 @@ public class Beastiary : Ritual {
     void Start()
     {
         targetCreatureButton.onClick.AddListener(() => SetTargetCreature());
-        this.currentCreature = Creature.loadedCreatures[currentCreatureIndex];
-        this.displayInfo();
-    }
-
-    public override void ShowRitual()
-    {
-        base.ShowRitual();
-        updateInfo();
+        currentCreature = Creature.loadedCreatures[currentCreatureIndex];
+        displayInfo();
     }
 
     // Update is called once per frame
@@ -65,22 +59,6 @@ public class Beastiary : Ritual {
     }
 
     /// <summary>
-    /// Update whether a required component has been submitted or not
-    /// </summary>
-    void updateInfo()
-    {
-        int i = 0;
-        foreach (Transform t in transform)
-            if (t.tag == "Component")
-            {
-                // If a required component has been submitted, add a check mark
-                t.gameObject.GetComponent<SpriteRenderer>().enabled = Order.SubmittedComponents.Exists(
-                    c => c.Equals(currentCreature.RequiredComponents[i]));
-                i++;
-            }
-    }
-
-    /// <summary>
     /// Show a new creature's information
     /// </summary>
     void displayInfo()
@@ -107,8 +85,12 @@ public class Beastiary : Ritual {
             GameObject componentInfo = GameObject.Instantiate(componentPrefab);
             componentInfo.transform.parent = transform;
             componentInfo.transform.position = new Vector3(xOffset, yOffset - yBetween * i);
-            componentInfo.transform.FindChild("Type Text").GetComponent<TextMesh>().text = currentCreature.RequiredComponents[i].ComponentType.ToString();
-            componentInfo.GetComponent<SpriteRenderer>().enabled = Order.SubmittedComponents.Exists(c => c.Equals(currentCreature.RequiredComponents[i]));
+            componentInfo.GetComponent<SpriteRenderer>().enabled = Order.SubmittedComponents.Exists(
+                    c => c.Matches(currentCreature.RequiredComponents[i]));
+
+            GameObject ritualDisplay = currentCreature.RequiredComponents[i].GetComponentVisual();
+            ritualDisplay.transform.parent = componentInfo.transform.FindChild("RitualDisplay");
+            ritualDisplay.transform.localPosition = new Vector3(0, 0, transform.localPosition.z - 1);
         }
         creatureImage.GetComponent<SpriteRenderer>().sprite = currentCreature.FetchCreatureSprite();
     }

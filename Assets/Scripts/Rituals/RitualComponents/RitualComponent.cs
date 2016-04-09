@@ -26,4 +26,10 @@ public abstract class RitualComponent
 
         return result;
     }
+
+    public virtual bool Matches(RitualComponent c)
+    {
+        if (ComponentType != c.ComponentType) return false;
+        return true;
+    }
 }
