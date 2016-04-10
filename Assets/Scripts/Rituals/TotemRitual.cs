@@ -50,7 +50,7 @@ public class TotemRitual : Ritual {
                 totemTypeStack[currentTotem] = 0;
 
             HighlightTotem();
-            totemStack[currentTotem].GetComponent<SpriteRenderer>().sprite = availableMaterials[totemTypeStack[currentTotem]].GetMaterialSprite();
+            totemStack[currentTotem].GetComponent<SpriteRenderer>().sprite = availableMaterials[totemTypeStack[currentTotem]].GetMaterialResource<Sprite>();
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow) && currentTotem < totemStack.Count - 1)
             HighlightTotem(currentTotem + 1);
@@ -98,7 +98,7 @@ public class TotemRitual : Ritual {
         totemStack.Add(newTotem);
         int totemType = Random.Range(0, availableMaterials.Count);
         totemTypeStack.Add((byte)totemType);
-        newTotem.GetComponent<SpriteRenderer>().sprite = availableMaterials[totemType].GetMaterialSprite();
+        newTotem.GetComponent<SpriteRenderer>().sprite = availableMaterials[totemType].GetMaterialResource<Sprite>();
 
         UpdateTotem();
     }

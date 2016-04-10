@@ -11,4 +11,11 @@
       <Description>The basic totem piece for the element of water</Description>
     </Material>
   </Totem>
+  <Rune>
+    <Material>
+      <ID>100</ID>
+      <Name>Stone</Name>
+      <Description>Your run of the mill rune</Description>
+    </Material>
+  </Rune>
 </Materials>

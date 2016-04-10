@@ -84,7 +84,7 @@ public class Beastiary : Ritual {
         {
             GameObject componentInfo = GameObject.Instantiate(componentPrefab);
             componentInfo.transform.parent = transform;
-            componentInfo.transform.position = new Vector3(xOffset, yOffset - yBetween * i);
+            componentInfo.transform.localPosition = new Vector3(xOffset, yOffset - yBetween * i, -1);
             componentInfo.GetComponent<SpriteRenderer>().enabled = Order.SubmittedComponents.Exists(
                     c => c.Matches(currentCreature.RequiredComponents[i]));
 

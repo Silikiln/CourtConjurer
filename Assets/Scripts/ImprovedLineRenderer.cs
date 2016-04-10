@@ -51,6 +51,8 @@ public class ImprovedLineRenderer : MonoBehaviour {
             
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
+
+        Debug.Log(mesh.bounds);
     }
 
     void UpdateColors()
@@ -134,7 +136,6 @@ public class ImprovedLineRenderer : MonoBehaviour {
         vertices[vertexIndex] = new Vector3(point.x + Mathf.Cos(angleOffset) * LineWeight, point.y + Mathf.Sin(angleOffset) * LineWeight, point.z);
         angleOffset -= Mathf.PI;
         vertices[vertexIndex + 1] = new Vector3(point.x + Mathf.Cos(angleOffset) * LineWeight, point.y + Mathf.Sin(angleOffset) * LineWeight, point.z);
-
     }
 
     public int Count { get { return points.Count; } }

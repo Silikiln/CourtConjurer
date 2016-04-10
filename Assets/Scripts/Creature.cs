@@ -24,6 +24,7 @@ public class Creature
         using (XmlReader reader = XmlReader.Create("Assets/CreatureList.xml"))
         {
             List<RitualMaterial> ritualMaterials = new List<RitualMaterial>();
+            List<byte> ritualData = new List<byte>();
             Creature currentCreature = new Creature();
             reader.ReadToFollowing("Creature");
             while (!reader.EOF)
@@ -41,12 +42,6 @@ public class Creature
                         case "Type":
                             currentCreature.Type = reader.ReadInnerXml();
                             break;
-                        case "Attribute":
-                            string attr = reader.ReadInnerXml();
-                            currentCreature.Attributes.Add(attr);
-                            if (!uniqueAttributes.Contains(attr))
-                                uniqueAttributes.Add(attr);
-                            break;
                         case "STR":
                             currentCreature.STR = byte.Parse(reader.ReadInnerXml());
                             break;
@@ -59,16 +54,28 @@ public class Creature
                         case "CHR":
                             currentCreature.CHR = byte.Parse(reader.ReadInnerXml());
                             break;
+
+                        case "Attribute":
+                            string attr = reader.ReadInnerXml();
+                            currentCreature.Attributes.Add(attr);
+                            if (!uniqueAttributes.Contains(attr))
+                                uniqueAttributes.Add(attr);
+                            break;
                         case "Name":
                             currentCreature.Names.Add(reader.ReadInnerXml());
                             break;
 
                         case "Totem":
+                        case "Rune":
+                            ritualData = new List<byte>();
                             ritualMaterials = new List<RitualMaterial>();
                             break;
 
                         case "Material":
                             ritualMaterials.Add(RitualMaterial.GetRitualMaterial(reader.ReadInnerXml()));
+                            break;
+                        case "Data":
+                            ritualData.Add(byte.Parse(reader.ReadInnerXml()));
                             break;
                     }
                 else
@@ -80,9 +87,12 @@ public class Creature
                         case "Totem":
                             currentCreature.RequiredComponents.Add(new TotemComponent(ritualMaterials));
                             break;
+                        case "Rune":
+                            currentCreature.RequiredComponents.Add(new RuneComponent(ritualMaterials, ritualData));
+                            break;
                         case "Bells":                        
                         case "Potion":
-                        case "Rune":
+                        
                         case "Incantation":
                             break;
                     }

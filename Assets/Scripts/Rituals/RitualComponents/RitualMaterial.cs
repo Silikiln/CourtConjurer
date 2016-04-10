@@ -24,15 +24,17 @@ public class RitualMaterial
         return string.Format("{0}{1}{2}", ByteToString(Type), ByteToString(Category), ByteToString(Tier));
     }
 
-    public Sprite GetMaterialSprite()
+
+    public T GetMaterialResource<T>() where T : UnityEngine.Object
     {
-        string path = "Sprites/Materials/";
+        string path = "Materials/";
         switch (Type)
         {
             case 0:
                 path += "Totem/";
                 break;
             case 1:
+                path += "Rune/";
                 break;
             case 2:
                 break;
@@ -42,10 +44,13 @@ public class RitualMaterial
                 break;
         }
         path += Category + "" + Tier;
-        Sprite result = Resources.Load<Sprite>(path);
+        T result = Resources.Load<T>(path);
 
         if (result == null)
             throw new MissingReferenceException("Could not load ritual material sprite for " + ToString() + " using path \"" + path + "\"");
+
+        if (result is GameObject)
+            result = GameObject.Instantiate(result);
 
         return result;
     }

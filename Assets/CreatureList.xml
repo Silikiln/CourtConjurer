@@ -14,7 +14,15 @@
           <Material>000</Material>
           <Material>010</Material>
           <Material>000</Material>
-        </Totem>      
+        </Totem>
+        <Rune>
+          <Material>100</Material>
+          <Data>0</Data>
+          <Data>2</Data>
+          <Data>3</Data>
+          <Data>6</Data>
+          <Data>7</Data>
+        </Rune>
 	  </Rituals>
   </Creature>
 </Creatures>

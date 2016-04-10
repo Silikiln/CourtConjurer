@@ -24,7 +24,7 @@ public class TotemComponent : RitualComponent
             piece.transform.localScale = new Vector3(1, 1, 1);
 
             SpriteRenderer renderer = piece.AddComponent<SpriteRenderer>();
-            renderer.sprite = ritualMaterials[i].GetMaterialSprite();
+            renderer.sprite = ritualMaterials[i].GetMaterialResource<Sprite>();
         }
 
         return totem;
