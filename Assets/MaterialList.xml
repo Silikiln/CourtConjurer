@@ -92,4 +92,11 @@
       <Description>Basic bells</Description>
     </Material>
   </Bell>
+  <Incantation>
+    <Material>
+      <ID>400</ID>
+      <Name>Paper</Name>
+      <Description>Basic paper</Description>
+    </Material>
+  </Incantation>
 </Materials>

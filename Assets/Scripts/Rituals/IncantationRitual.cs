@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
+using System.Linq;
 using System.Collections.Generic;
 
 /// <summary>
@@ -104,7 +104,7 @@ public class IncantationRitual : Ritual {
             }
 
     }
-    public String RestrictString(String input)
+    public string RestrictString(string input)
     {
         if (input.Length <= maxScriptLength)
             return input;
@@ -120,5 +120,17 @@ public class IncantationRitual : Ritual {
 
         currentScroll.GetComponent<Scroll>().typed = "";
         typedMesh.text = "";
+    }
+
+    protected override RitualComponent GetCurrentComponent()
+    {
+        IEnumerable<Scroll> typedScrolls = ScrollPosition.takenPositions.Where(s => s != null && s.typed.Length > 0);
+        return new IncantationComponent(typedScrolls.Select(s => RitualMaterial.Get("400")).ToList(),
+            typedScrolls.Select(s => s.typed).ToArray());
+    }
+
+    public override RitualComponent.Type GetRitualType()
+    {
+        return RitualComponent.Type.Incantation;
     }
 }

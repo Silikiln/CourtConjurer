@@ -27,12 +27,12 @@
 	  </Rituals>
   </Creature>
   <Creature>
-    <Title>Wraith</Title>
-    <Type>Spirit</Type>
-    <STR>0</STR>
-    <AGI>7</AGI>
-    <INT>6</INT>
-    <CHR>0</CHR>
+    <Title>Succubus</Title>
+    <Type>Demon</Type>
+    <STR>2</STR>
+    <AGI>4</AGI>
+    <INT>1</INT>
+    <CHR>8</CHR>
     <Rituals>
       <Potion>
         <Material>200</Material>
@@ -54,6 +54,24 @@
         <Material>300</Material>
         <Data>2</Data>
       </Bell>
+    </Rituals>
+  </Creature>
+  <Creature>
+    <Title>Wraith</Title>
+    <Type>Spirit</Type>
+    <STR>0</STR>
+    <AGI>7</AGI>
+    <INT>6</INT>
+    <CHR>0</CHR>
+    <Rituals>
+      <Incantation>
+        <Material>400</Material>
+        <Word>xul</Word>
+        <Material>400</Material>
+        <Word>fley</Word>
+        <Material>400</Material>
+        <Word>tof</Word>
+      </Incantation>
     </Rituals>
   </Creature>
 </Creatures>

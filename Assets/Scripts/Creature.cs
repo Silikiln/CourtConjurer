@@ -73,6 +73,7 @@ public class Creature
                         case "Incantation":
                             ritualData = new List<byte>();
                             ritualMaterials = new List<RitualMaterial>();
+                            incantation = "";
                             break;
 
                         case "Material":
@@ -81,8 +82,8 @@ public class Creature
                         case "Data":
                             ritualData.Add(byte.Parse(reader.ReadInnerXml()));
                             break;
-                        case "Words":
-                            incantation = reader.ReadInnerXml().ToUpper();
+                        case "Word":
+                            incantation += reader.ReadInnerXml().ToUpper() + " ";
                             break;
                     }
                 else
@@ -104,6 +105,7 @@ public class Creature
                             currentCreature.RequiredComponents.Add(new BellComponent(ritualMaterials, ritualData.ToArray()));
                             break;
                         case "Incantation":
+                            currentCreature.RequiredComponents.Add(new IncantationComponent(ritualMaterials, incantation.Trim()));
                             break;
                     }
             }
