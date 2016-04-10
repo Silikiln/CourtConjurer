@@ -111,7 +111,7 @@ public abstract class Ritual : MonoBehaviour {
     }
 
     /// <summary>
-    /// Gets the current component result of the ritual6
+    /// Gets the current component result of the ritual
     /// </summary>
     /// <returns></returns>
     protected virtual RitualComponent GetCurrentComponent() { throw new NotImplementedException(); }

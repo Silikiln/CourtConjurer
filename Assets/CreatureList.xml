@@ -17,6 +17,7 @@
         </Totem>
         <Rune>
           <Material>100</Material>
+          <Material>110</Material>
           <Data>0</Data>
           <Data>2</Data>
           <Data>3</Data>
@@ -24,5 +25,23 @@
           <Data>7</Data>
         </Rune>
 	  </Rituals>
+  </Creature>
+  <Creature>
+    <Title>Wraith</Title>
+    <Type>Spirit</Type>
+    <STR>0</STR>
+    <AGI>7</AGI>
+    <INT>6</INT>
+    <CHR>0</CHR>
+    <Rituals>
+      <Potion>
+        <Material>200</Material>
+        <Material>210</Material>
+        <Material>230</Material>
+        <Material>250</Material>
+        <Material>2B0</Material>
+        <Material>2A0</Material>
+      </Potion>
+    </Rituals>
   </Creature>
 </Creatures>

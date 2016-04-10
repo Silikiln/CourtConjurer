@@ -21,7 +21,8 @@ public class RuneRitual : Ritual {
         if (RunePoint.parentScript == null) RunePoint.parentScript = this;
 
         lineRenderer.SetColor(new LineColor.Solid(neutralColor));
-        //properPoints = BookmarkedCreatureComponent();
+        if (BookmarkedCreatureHasComponent())
+            properPoints = (BookmarkedCreatureComponent() as RuneComponent).ConnectedPoints;
 
         CheckCorrectness();
     }
@@ -116,6 +117,11 @@ public class RuneRitual : Ritual {
         pointsConnected.Clear();
         lineRenderer.Clear();
         canSubmit = false;
+    }
+
+    protected override RitualComponent GetCurrentComponent()
+    {
+        return new RuneComponent(RitualMaterial.Get("100"), RitualMaterial.Get("110"), pointsConnected);
     }
 
     public override RitualComponent.Type GetRitualType()

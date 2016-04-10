@@ -22,6 +22,7 @@ public class Beastiary : Ritual {
     private int currentCreatureIndex = 0;
     private Creature currentCreature;
 
+    private bool firstDisplay = true;
 
     // Use this for initialization
     void Start()

@@ -6,15 +6,19 @@ using UnityEngine;
 
 public class RuneComponent : RitualComponent
 {
-    private const float DISTANCE_BETWEEN_PIECES = 3.7f;
-
     public override Type ComponentType { get { return Type.Rune; } }
 
-    private byte[] connectedPoints;
+    public byte[] ConnectedPoints { get; private set; }
 
     public RuneComponent(List<RitualMaterial> ritualMaterials, List<byte> connectedPoints) : base(ritualMaterials)
     {
-        this.connectedPoints = connectedPoints.ToArray();
+        ConnectedPoints = connectedPoints.ToArray();
+    }
+
+    public RuneComponent(RitualMaterial runeMaterial, RitualMaterial dyeMaterial, List<byte> connectedPoints) 
+        : base (new List<RitualMaterial>(new RitualMaterial[] { runeMaterial, dyeMaterial }))
+    {
+        ConnectedPoints = connectedPoints.ToArray();
     }
 
     public override GameObject GetComponentVisual()
@@ -32,7 +36,7 @@ public class RuneComponent : RitualComponent
         ImprovedLineRenderer lineRenderer = rune.GetComponent<ImprovedLineRenderer>();
         lineRenderer.SetColor(new LineColor.Solid(Color.black));
 
-        foreach (byte b in connectedPoints)
+        foreach (byte b in ConnectedPoints)
         {
             lineRenderer.AddPoint(rune.transform.FindChild("Point" + b).transform.localPosition - new Vector3(0, 0, 1));
         }
@@ -43,21 +47,20 @@ public class RuneComponent : RitualComponent
     public override bool Matches(RitualComponent c)
     {
         if (!base.Matches(c)) return false;
-
-        RitualMaterial[] otherMaterials = c.RitualMaterials;
-        if (ritualMaterials.Count != otherMaterials.Length) return false;
-
-        for (int i = 0; i < ritualMaterials.Count; i++)
-            if (!ritualMaterials[i].Equals(otherMaterials[i])) return false;
-
-        return true;
+        Debug.Log(this);
+        Debug.Log(c);
+        RuneComponent other = c as RuneComponent;
+        return ritualMaterials.SequenceEqual(other.RitualMaterials) && 
+            (ConnectedPoints.SequenceEqual(other.ConnectedPoints) || ConnectedPoints.SequenceEqual(other.ConnectedPoints.Reverse()));
     }
 
     public override string ToString()
     {
-        string result = "Totem:\n";
+        string result = "Rune:\n";
         foreach (RitualMaterial m in ritualMaterials)
             result += m.ToString() + "\n";
+        foreach (byte b in ConnectedPoints)
+            result += b + " ";
         return result;
     }
 }

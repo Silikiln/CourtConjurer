@@ -99,7 +99,11 @@ public class RitualMaterial
 
     private static Dictionary<string, RitualMaterial> loadedMaterials;
 
-    public static RitualMaterial GetRitualMaterial(string key)
+    public static RitualMaterial Get(byte type, byte category, byte tier) {
+        return Get(ByteToString(type) + ByteToString(category) + ByteToString(tier));
+    }
+
+    public static RitualMaterial Get(string key)
     {
         RitualMaterial result;
         if (!loadedMaterials.TryGetValue(key, out result))

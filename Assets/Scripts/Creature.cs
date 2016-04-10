@@ -72,7 +72,7 @@ public class Creature
                             break;
 
                         case "Material":
-                            ritualMaterials.Add(RitualMaterial.GetRitualMaterial(reader.ReadInnerXml()));
+                            ritualMaterials.Add(RitualMaterial.Get(reader.ReadInnerXml()));
                             break;
                         case "Data":
                             ritualData.Add(byte.Parse(reader.ReadInnerXml()));

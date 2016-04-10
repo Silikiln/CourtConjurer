@@ -24,9 +24,19 @@ public class ImprovedLineRenderer : MonoBehaviour {
     private List<Vector3> vertices = new List<Vector3>();
     private List<int> triangles = new List<int>();
 
+    private bool firstUpdate = true;
+
     void Start()
     {
         GetComponent<MeshFilter>().mesh = new Mesh();
+    }
+
+    void Update()
+    {
+        if (!firstUpdate) return;
+
+        firstUpdate = false;
+        UpdateMesh();
     }
 
     void UpdateMesh()
@@ -51,8 +61,6 @@ public class ImprovedLineRenderer : MonoBehaviour {
             
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
-
-        Debug.Log(mesh.bounds);
     }
 
     void UpdateColors()

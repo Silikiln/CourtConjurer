@@ -26,8 +26,8 @@ public class TotemRitual : Ritual {
     {
         firstPosition = highlightTotem.transform.position;
 
-        availableMaterials.Add(RitualMaterial.GetRitualMaterial("000"));
-        availableMaterials.Add(RitualMaterial.GetRitualMaterial("010"));
+        availableMaterials.Add(RitualMaterial.Get("000"));
+        availableMaterials.Add(RitualMaterial.Get("010"));
 
         AddTotem();
         highlightTotem.transform.localScale = totemStack[0].transform.localScale;
@@ -98,6 +98,7 @@ public class TotemRitual : Ritual {
         totemStack.Add(newTotem);
         int totemType = Random.Range(0, availableMaterials.Count);
         totemTypeStack.Add((byte)totemType);
+        newTotem.SetActive(true);
         newTotem.GetComponent<SpriteRenderer>().sprite = availableMaterials[totemType].GetMaterialResource<Sprite>();
 
         UpdateTotem();
