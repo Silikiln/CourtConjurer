@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using UnityEngine;
 
@@ -112,8 +113,9 @@ public class RitualMaterial
     public static void LoadMaterials()
     {
         loadedMaterials = new Dictionary<string, RitualMaterial>();
-
-        using (XmlReader reader = XmlReader.Create("Assets/MaterialList.xml"))
+        Debug.Log(Resources.FindObjectsOfTypeAll(typeof(TextAsset))[0].name);
+        TextAsset materialXML = Resources.Load<TextAsset>("MaterialList");
+        using (XmlTextReader reader = new XmlTextReader(new StringReader(materialXML.text)))
         {
             RitualMaterial currentMaterial = new RitualMaterial();
             reader.ReadToFollowing("Material");

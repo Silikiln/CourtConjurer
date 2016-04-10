@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
-using UnityEditor;
+using System.IO;
 
 /// <summary>
 /// Data type to store information about a creature and how to summon it
@@ -21,7 +21,8 @@ public class Creature
         loadedCreatures = new List<Creature>();
         uniqueAttributes = new List<string>();
 
-        using (XmlReader reader = XmlReader.Create("Assets/CreatureList.xml"))
+        TextAsset creatureXML = Resources.Load<TextAsset>("CreatureList");
+        using (XmlTextReader reader = new XmlTextReader(new StringReader(creatureXML.text)))
         {
             List<RitualMaterial> ritualMaterials = new List<RitualMaterial>();
             List<byte> ritualData = new List<byte>();
