@@ -8,7 +8,9 @@ using System.Linq;
 public class PotionRitual : Ritual {
     public Color neutralColor, goodColor, badColor;
 
-    private byte[] correctIngredients;
+    List<RitualMaterial> availableMaterials = new List<RitualMaterial>();
+
+    private RitualMaterial[] correctIngredients;
     private List<byte> addedIngredients = new List<byte>();
     private KeyCode[] inputsToCheck = {
         KeyCode.Q, KeyCode.W, KeyCode.E, KeyCode.R,
@@ -21,14 +23,17 @@ public class PotionRitual : Ritual {
     private string currentIngredientString = "";
 
     void Start()
-    {        
+    {
+        for (byte i = 0; i < 12; i++)
+            availableMaterials.Add(RitualMaterial.Get(2, i, 0));
         ResetPotion();
     }
 
     public override void ShowRitual()
     {
         base.ShowRitual();
-        //correctIngredients = BookmarkedCreatureComponent();
+        if (BookmarkedCreatureHasComponent())
+            correctIngredients = (BookmarkedCreatureComponent() as PotionComponent).RitualMaterials;
         UpdateIngredientText();
     }
 
@@ -61,7 +66,7 @@ public class PotionRitual : Ritual {
         if (addedIngredients.Count == 0 || correctIngredients == null)
             ingredientText.color = neutralColor;
         else if (addedIngredients.Count <= correctIngredients.Length &&
-            correctIngredients.Take(addedIngredients.Count).SequenceEqual(addedIngredients))
+            correctIngredients.Take(addedIngredients.Count).SequenceEqual(addedIngredients.Select(b => availableMaterials[b])))
             ingredientText.color = goodColor;
         else
             ingredientText.color = badColor;
@@ -82,5 +87,18 @@ public class PotionRitual : Ritual {
         currentIngredientString = currentIngredientString + code;
         ingredientText.text = currentIngredientString;
         UpdateIngredientText();
+    }
+
+    protected override RitualComponent GetCurrentComponent()
+    {
+        List<RitualMaterial> addedMaterials = new List<RitualMaterial>();
+        foreach (byte b in addedIngredients)
+            addedMaterials.Add(RitualMaterial.Get(2, b, 0));
+        return new PotionComponent(addedMaterials);
+    }
+
+    public override RitualComponent.Type GetRitualType()
+    {
+        return RitualComponent.Type.Potion;
     }
 }

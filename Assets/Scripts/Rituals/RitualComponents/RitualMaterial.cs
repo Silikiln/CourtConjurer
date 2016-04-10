@@ -12,6 +12,15 @@ public class RitualMaterial
     public string Description { get; private set; }
 
     public RitualMaterial() { }
+    public RitualMaterial(string input)
+    {
+        if (input.Length != 3)
+            throw new ArgumentException(string.Format("A ritual material string must consist of three values. The provided value \"{0}\" has {1}", input, input.Length));
+
+        Type = CharToByte(input[0]);
+        Category = CharToByte(input[1]);
+        Tier = CharToByte(input[2]);
+    }
     public RitualMaterial(byte type, byte category, byte tier)
     {
         Type = type;
@@ -69,22 +78,11 @@ public class RitualMaterial
         return Tier * 35 + Category * 35 * 35 + Type * 35 * 35 * 35;
     }
 
-    public static RitualMaterial FromString(string input)
-    {
-        if (input.Length != 3)
-            throw new ArgumentException(string.Format("A ritual material string must consist of three values. The provided value \"{0}\" has {1}", input, input.Length));
-        RitualMaterial result = new RitualMaterial();
-        result.Type = CharToByte(input[0]);
-        result.Category = CharToByte(input[1]);
-        result.Tier = CharToByte(input[2]);
-        return result;
-    }
-
-    private static string ByteToString(byte b)
+    public static string ByteToString(byte b)
     {
         if (b < 10)
             return b.ToString();
-        return ('A' + b - 10).ToString();
+        return ((char)('A' + b - 10)).ToString();
     }
 
     private static byte CharToByte(char c)
@@ -126,7 +124,7 @@ public class RitualMaterial
                     switch (reader.Name)
                     {
                         case "ID":
-                            currentMaterial = FromString(reader.ReadInnerXml()); ;
+                            currentMaterial = new RitualMaterial(reader.ReadInnerXml()); ;
                             break;
                         case "Name":
                             currentMaterial.Name = reader.ReadInnerXml();

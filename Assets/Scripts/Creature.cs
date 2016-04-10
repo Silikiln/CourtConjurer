@@ -67,6 +67,7 @@ public class Creature
 
                         case "Totem":
                         case "Rune":
+                        case "Potion":
                             ritualData = new List<byte>();
                             ritualMaterials = new List<RitualMaterial>();
                             break;
@@ -90,8 +91,12 @@ public class Creature
                         case "Rune":
                             currentCreature.RequiredComponents.Add(new RuneComponent(ritualMaterials, ritualData));
                             break;
-                        case "Bells":                        
                         case "Potion":
+                            currentCreature.RequiredComponents.Add(new PotionComponent(ritualMaterials));
+                            break;
+
+                        case "Bells":                        
+                        
                         
                         case "Incantation":
                             break;
