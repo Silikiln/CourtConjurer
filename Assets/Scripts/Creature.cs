@@ -25,6 +25,7 @@ public class Creature
         {
             List<RitualMaterial> ritualMaterials = new List<RitualMaterial>();
             List<byte> ritualData = new List<byte>();
+            string incantation = "";
             Creature currentCreature = new Creature();
             reader.ReadToFollowing("Creature");
             while (!reader.EOF)
@@ -68,6 +69,8 @@ public class Creature
                         case "Totem":
                         case "Rune":
                         case "Potion":
+                        case "Bell":
+                        case "Incantation":
                             ritualData = new List<byte>();
                             ritualMaterials = new List<RitualMaterial>();
                             break;
@@ -77,6 +80,9 @@ public class Creature
                             break;
                         case "Data":
                             ritualData.Add(byte.Parse(reader.ReadInnerXml()));
+                            break;
+                        case "Words":
+                            incantation = reader.ReadInnerXml().ToUpper();
                             break;
                     }
                 else
@@ -94,10 +100,9 @@ public class Creature
                         case "Potion":
                             currentCreature.RequiredComponents.Add(new PotionComponent(ritualMaterials));
                             break;
-
-                        case "Bells":                        
-                        
-                        
+                        case "Bell":
+                            currentCreature.RequiredComponents.Add(new BellComponent(ritualMaterials, ritualData.ToArray()));
+                            break;
                         case "Incantation":
                             break;
                     }

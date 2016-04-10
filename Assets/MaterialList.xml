@@ -85,4 +85,11 @@
       <Description>Some worms 'n' shit</Description>
     </Material>
   </Potion>
+  <Bell>
+    <Material>
+      <ID>300</ID>
+      <Name>Bronze</Name>
+      <Description>Basic bells</Description>
+    </Material>
+  </Bell>
 </Materials>

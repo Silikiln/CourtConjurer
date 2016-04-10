@@ -58,10 +58,16 @@ public class BellRitual : Ritual
         }
     }
 
+    protected override RitualComponent GetCurrentComponent()
+    {
+        return new BellComponent(bells.Select(b => RitualMaterial.Get("300")).ToList(), bells.Select(b => b.GetComponent<BellSlide>().NoteIndex).ToArray());
+    }
+
     public override void ShowRitual()
     {
         base.ShowRitual();
-        //BellSlide.ProperLocations = BookmarkedCreatureComponent();
+        if (BookmarkedCreatureHasComponent())
+        BellSlide.ProperLocations = (BookmarkedCreatureComponent() as BellComponent).BellPositions;
     }
 
     public override RitualComponent.Type GetRitualType()
