@@ -56,7 +56,7 @@ public class RitualMaterial
                 path += "Incantation/";
                 break;
         }
-        path += Category + "" + Tier;
+        path += ByteToString(Category) + "" + ByteToString(Tier);
         T result = Resources.Load<T>(path);
 
         if (result == null)

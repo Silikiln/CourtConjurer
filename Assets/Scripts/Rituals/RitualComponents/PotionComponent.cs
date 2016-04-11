@@ -6,18 +6,27 @@ using UnityEngine;
 
 public class PotionComponent : RitualComponent
 {
+    const float INGREDIENT_X_BETWEEN = 1;
+    const float INGREDIENT_Y_BETWEEN = 1;
+
     public override Type ComponentType { get { return Type.Potion; } }
 
     public PotionComponent(List<RitualMaterial> ritualMaterials) : base(ritualMaterials) { }
 
     public override GameObject GetComponentVisual()
     {
-        GameObject potion = base.GetComponentVisual();
-        TextMesh text = potion.GetComponent<TextMesh>();
-        foreach (RitualMaterial m in ritualMaterials)
-            text.text += RitualMaterial.ByteToString(m.Category);
+        GameObject cauldron = base.GetComponentVisual();
 
-        return potion;
+        Vector3[] gridPositions = Grid.Generate(ritualMaterials.Count, INGREDIENT_X_BETWEEN, INGREDIENT_Y_BETWEEN, -1);
+        for (int i = 0; i < ritualMaterials.Count; i++)
+        {
+            GameObject ingredient = ritualMaterials[i].GetMaterialResource<GameObject>();
+            ingredient.transform.parent = cauldron.transform;
+            ingredient.transform.localScale = new Vector3(1, 1, 1);
+            ingredient.transform.localPosition = gridPositions[i];
+        }
+
+        return cauldron;
     }
 
     public override bool Matches(RitualComponent c)

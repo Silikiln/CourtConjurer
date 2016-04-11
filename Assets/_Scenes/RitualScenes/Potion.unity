@@ -1011,7 +1011,7 @@ MonoBehaviour:
   neutralColor: {r: 1, g: 1, b: 1, a: 1}
   goodColor: {r: 0.1492902, g: 0.9411765, b: 0, a: 1}
   badColor: {r: 0.9044118, g: 0, b: 0, a: 1}
-  ingredientDisplay: {fileID: 374822092}
+  cauldron: {fileID: 1827840677}
 --- !u!4 &560735845
 Transform:
   m_ObjectHideFlags: 0

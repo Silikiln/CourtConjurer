@@ -41,6 +41,9 @@
         <Material>250</Material>
         <Material>2B0</Material>
         <Material>2A0</Material>
+        <Material>220</Material>
+        <Material>290</Material>
+        <Material>270</Material>
       </Potion>
       <Bell>
         <Material>300</Material>

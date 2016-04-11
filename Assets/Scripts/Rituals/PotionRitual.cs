@@ -9,6 +9,7 @@ public class PotionRitual : Ritual {
     public Color neutralColor, goodColor, badColor;
 
     List<RitualMaterial> availableMaterials = new List<RitualMaterial>();
+    List<GameObject> ingredientObjects = new List<GameObject>();
 
     private RitualMaterial[] correctIngredients;
     private List<byte> addedIngredients = new List<byte>();
@@ -18,7 +19,7 @@ public class PotionRitual : Ritual {
         KeyCode.Z, KeyCode.X, KeyCode.C, KeyCode.V
     };
 
-    public GameObject ingredientDisplay;
+    public Transform cauldron;
     private TextMesh ingredientText;
     private string currentIngredientString = "";
 
@@ -34,7 +35,7 @@ public class PotionRitual : Ritual {
         base.ShowRitual();
         if (BookmarkedCreatureHasComponent())
             correctIngredients = (BookmarkedCreatureComponent() as PotionComponent).RitualMaterials;
-        UpdateIngredientText();
+        //UpdateIngredientText();
     }
 
     // Update is called once per frame
@@ -55,9 +56,20 @@ public class PotionRitual : Ritual {
     {
         addedIngredients.Add((byte)ingredientIndex);
         canSubmit = true;
-        SetIngredientText(inputsToCheck[ingredientIndex]);
+        //SetIngredientText(inputsToCheck[ingredientIndex]);
+
+        GameObject newIngredient = availableMaterials[ingredientIndex].GetMaterialResource<GameObject>();
+        newIngredient.transform.parent = cauldron;
+        newIngredient.transform.localScale = new Vector3(1, 1, 1);
+        ingredientObjects.Add(newIngredient);
+
+        Vector3[] gridPositions = Grid.Generate(addedIngredients.Count, 1, 1, -1);
+
+        for (int i = 0; i < addedIngredients.Count; i++)
+            ingredientObjects[i].transform.localPosition = gridPositions[i];
     }
 
+    /*
     void UpdateIngredientText()
     {
         if (ingredientText == null)
@@ -69,25 +81,32 @@ public class PotionRitual : Ritual {
             correctIngredients.Take(addedIngredients.Count).SequenceEqual(addedIngredients.Select(b => availableMaterials[b])))
             ingredientText.color = goodColor;
         else
-            ingredientText.color = badColor;
-               
+            ingredientText.color = badColor;               
     }
+    */
 
     void ResetPotion()
     {
         currentIngredientString = "";
-        ingredientText.text = ". . .";
+        //ingredientText.text = ". . .";
+
+        foreach (GameObject obj in ingredientObjects)
+            Destroy(obj);
+
+        ingredientObjects.Clear();
         addedIngredients.Clear();
         canSubmit = false;
-        UpdateIngredientText();
+        //UpdateIngredientText();
     }
 
+    /*
     void SetIngredientText(KeyCode code)
     {
         currentIngredientString = currentIngredientString + code;
         ingredientText.text = currentIngredientString;
         UpdateIngredientText();
     }
+    */
 
     protected override RitualComponent GetCurrentComponent()
     {
