@@ -47,10 +47,13 @@ public class RitualMaterial
                 path += "Rune/";
                 break;
             case 2:
+                path += "Potion/";
                 break;
             case 3:
+                path += "Bell/";
                 break;
             case 4:
+                path += "Incantation/";
                 break;
         }
         path += Category + "" + Tier;
