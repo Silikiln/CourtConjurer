@@ -116,7 +116,6 @@ public class RitualMaterial
     public static void LoadMaterials()
     {
         loadedMaterials = new Dictionary<string, RitualMaterial>();
-        Debug.Log(Resources.FindObjectsOfTypeAll(typeof(TextAsset))[0].name);
         TextAsset materialXML = Resources.Load<TextAsset>("MaterialList");
         using (XmlTextReader reader = new XmlTextReader(new StringReader(materialXML.text)))
         {

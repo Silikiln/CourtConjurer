@@ -6,6 +6,7 @@ using System.Linq;
 /// Handles the logic for the order specific potion ritual
 /// </summary>
 public class PotionRitual : Ritual {
+    public int maxIngredients = 9;
     public Color neutralColor, goodColor, badColor;
 
     List<RitualMaterial> availableMaterials = new List<RitualMaterial>();
@@ -47,9 +48,10 @@ public class PotionRitual : Ritual {
         if (Input.GetKeyDown(KeyCode.Backspace))
             ResetPotion();
 
-        for (int i = 0; i < inputsToCheck.Length; i++)        
-            if (Input.GetKeyDown(inputsToCheck[i]))
-                AddIngredient(i);        
+        if (addedIngredients.Count < maxIngredients)
+            for (int i = 0; i < inputsToCheck.Length; i++)        
+                if (Input.GetKeyDown(inputsToCheck[i]))
+                    AddIngredient(i);        
     }
 
     public void AddIngredient(int ingredientIndex)
