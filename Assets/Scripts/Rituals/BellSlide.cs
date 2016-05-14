@@ -10,7 +10,7 @@ public class BellSlide : MonoBehaviour {
     public AudioClip bellSound;
     public Sprite correctHighlight, incorrectHighlight;
 
-    private byte noteIndex = 0;
+    public byte NoteIndex { get; private set; }
     private bool dragging = false;
     private SpriteRenderer highlightRenderer;
 
@@ -21,19 +21,19 @@ public class BellSlide : MonoBehaviour {
 
 	void OnMouseDown () {
         dragging = true;
-        noteIndex = 255;
+        NoteIndex = 255;
         ClearHighlight();
     }
 
     void OnMouseUp()
     {
         dragging = false;
-        noteIndex = 0;
+        NoteIndex = 0;
         for (int i = 1; i < xPositions.Length; i++)
-            if (NewPositionCloser(transform.position.x, xPositions[noteIndex], xPositions[i]))
-                noteIndex = (byte)i;
+            if (NewPositionCloser(transform.position.x, xPositions[NoteIndex], xPositions[i]))
+                NoteIndex = (byte)i;
 
-        transform.position = new Vector3(xPositions[noteIndex], transform.position.y, transform.position.z);
+        transform.position = new Vector3(xPositions[NoteIndex], transform.position.y, transform.position.z);
     }
 
     void Update()
@@ -56,25 +56,25 @@ public class BellSlide : MonoBehaviour {
         return Mathf.Abs(from - newPosition) < Mathf.Abs(from - originalPosition);
     }
 
-    public byte GetIndex() { return noteIndex; }
+    public byte GetIndex() { return NoteIndex; }
 
     public void ClearHighlight() { highlightRenderer.enabled = false; }
 
     public void PlaySound(int targetIndex) {
-        if (noteIndex == 255) return;
+        if (NoteIndex == 255) return;
 
         if (ProperLocations != null)
-            if (ProperLocations[bellIndex] == targetIndex && noteIndex == targetIndex) {
+            if (ProperLocations[bellIndex] == targetIndex && NoteIndex == targetIndex) {
                 highlightRenderer.enabled = true;
                 highlightRenderer.sprite = correctHighlight;
-            } else if (targetIndex == noteIndex)
+            } else if (targetIndex == NoteIndex)
             {
                 highlightRenderer.enabled = true;
                 highlightRenderer.sprite = incorrectHighlight;
             }
 
 
-        if (noteIndex == targetIndex)
+        if (NoteIndex == targetIndex)
             AudioSource.PlayClipAtPoint(bellSound, Camera.main.transform.position);
     }
 }

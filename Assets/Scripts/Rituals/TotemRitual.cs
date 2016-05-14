@@ -7,17 +7,17 @@ using System;
 /// <summary>
 /// Handles the logic for the rapid fire effigy ritual
 /// </summary>
-public class EffigyRitual : Ritual {
+public class TotemRitual : Ritual {
     public GameObject totem;
     public GameObject highlightTotem;
     public Sprite neutralHighlight, correctHighlight, incorrectHighlight;
-    public Sprite[] totemSprites;
 
     public int maxTotems = 6;
     public float heightDifference = 1.1f;
 
-    byte[] correctTotemTypes;
+    RitualMaterial[] correctTotemTypes;
     Vector3 firstPosition;
+    List<RitualMaterial> availableMaterials = new List<RitualMaterial>();
     List<byte> totemTypeStack = new List<byte>();
     List<GameObject> totemStack = new List<GameObject>();
     int currentTotem = 0;
@@ -25,6 +25,9 @@ public class EffigyRitual : Ritual {
     void Start()
     {
         firstPosition = highlightTotem.transform.position;
+
+        availableMaterials.Add(RitualMaterial.Get("000"));
+        availableMaterials.Add(RitualMaterial.Get("010"));
 
         AddTotem();
         highlightTotem.transform.localScale = totemStack[0].transform.localScale;
@@ -42,12 +45,12 @@ public class EffigyRitual : Ritual {
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
         {
             if (Input.GetKeyDown(KeyCode.LeftArrow) && --totemTypeStack[currentTotem] == 255)
-                totemTypeStack[currentTotem] = (byte)(totemSprites.Length - 1);
-            else if (Input.GetKeyDown(KeyCode.RightArrow) && ++totemTypeStack[currentTotem] == totemSprites.Length)
+                totemTypeStack[currentTotem] = (byte)(availableMaterials.Count - 1);
+            else if (Input.GetKeyDown(KeyCode.RightArrow) && ++totemTypeStack[currentTotem] == availableMaterials.Count)
                 totemTypeStack[currentTotem] = 0;
 
             HighlightTotem();
-            totemStack[currentTotem].GetComponent<SpriteRenderer>().sprite = totemSprites[totemTypeStack[currentTotem]];
+            totemStack[currentTotem].GetComponent<SpriteRenderer>().sprite = availableMaterials[totemTypeStack[currentTotem]].GetMaterialResource<Sprite>();
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow) && currentTotem < totemStack.Count - 1)
             HighlightTotem(currentTotem + 1);
@@ -62,7 +65,9 @@ public class EffigyRitual : Ritual {
     public override void ShowRitual()
     {
         base.ShowRitual();
-        correctTotemTypes = BookmarkedCreatureComponentData();
+        if (BookmarkedCreatureHasComponent())
+            correctTotemTypes = BookmarkedCreatureComponent().RitualMaterials;
+        else correctTotemTypes = null;
         highlightTotem.GetComponent<SpriteRenderer>().sprite = neutralHighlight;
         HighlightTotem();
     }
@@ -80,7 +85,7 @@ public class EffigyRitual : Ritual {
         highlightTotem.transform.position = totemStack[currentTotem].transform.position;
 
         if (correctTotemTypes == null) return;
-        if (currentTotem >= correctTotemTypes.Length || correctTotemTypes[currentTotem] != totemTypeStack[currentTotem])
+        if (currentTotem >= correctTotemTypes.Length || correctTotemTypes[currentTotem] != availableMaterials[totemTypeStack[currentTotem]])
             highlightTotem.GetComponent<SpriteRenderer>().sprite = incorrectHighlight;
         else highlightTotem.GetComponent<SpriteRenderer>().sprite = correctHighlight;
     }
@@ -88,13 +93,13 @@ public class EffigyRitual : Ritual {
     void AddTotem()
     {
         GameObject newTotem = GameObject.Instantiate(totem);
-        newTotem.GetComponent<SpriteRenderer>().sprite = totemSprites[0];
         newTotem.transform.parent = transform;
 
         totemStack.Add(newTotem);
-        int totemType = (int)(Random.value * 9999) % 6;
+        int totemType = Random.Range(0, availableMaterials.Count);
         totemTypeStack.Add((byte)totemType);
-        newTotem.GetComponent<SpriteRenderer>().sprite = totemSprites[totemType];
+        newTotem.SetActive(true);
+        newTotem.GetComponent<SpriteRenderer>().sprite = availableMaterials[totemType].GetMaterialResource<Sprite>();
 
         UpdateTotem();
     }
@@ -141,12 +146,15 @@ public class EffigyRitual : Ritual {
         UpdateTotem();
     }
 
-    protected override Component GetCurrentComponent()
+    protected override RitualComponent GetCurrentComponent()
     {
-        return new Component(Component.Type.Effigy, totemTypeStack);
+        List<RitualMaterial> addedTotemPieces = new List<RitualMaterial>();
+        foreach (byte b in totemTypeStack)
+            addedTotemPieces.Add(availableMaterials[b]);
+        return new TotemComponent(addedTotemPieces);
     }
-    public override Component.Type GetRitualType()
+    public override RitualComponent.Type GetRitualType()
     {
-        return Component.Type.Effigy;
+        return RitualComponent.Type.Totem;
     }
 }

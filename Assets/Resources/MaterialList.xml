@@ -1,0 +1,102 @@
+﻿<Materials>
+  <Totem>
+    <Material>
+      <ID>000</ID>
+      <Name>Spark</Name>
+      <Description>The basic totem piece for the element of fire</Description>
+    </Material>
+    <Material>
+      <ID>010</ID>
+      <Name>Droplet</Name>
+      <Description>The basic totem piece for the element of water</Description>
+    </Material>
+  </Totem>
+  <Rune>
+    <Material>
+      <ID>100</ID>
+      <Name>Stone</Name>
+      <Description>Your run of the mill rune</Description>
+    </Material>
+    <Material>
+      <ID>110</ID>
+      <Name>Dye or Something</Name>
+      <Description>Basically the worst</Description>
+    </Material>
+  </Rune>
+  <Potion>
+    <Material>
+      <ID>200</ID>
+      <Name>Flower</Name>
+      <Description>Some basic ass flowers</Description>
+    </Material>
+    <Material>
+      <ID>210</ID>
+      <Name>Root</Name>
+      <Description>Some basic ass roots</Description>
+    </Material>
+    <Material>
+      <ID>220</ID>
+      <Name>Spice</Name>
+      <Description>Some basic ass flowers</Description>
+    </Material>
+    <Material>
+      <ID>230</ID>
+      <Name>Herb</Name>
+      <Description>Some basic ass flowers</Description>
+    </Material>
+    <Material>
+      <ID>240</ID>
+      <Name>Weed</Name>
+      <Description>Some basic ass flowers</Description>
+    </Material>
+    <Material>
+      <ID>250</ID>
+      <Name>Fruit</Name>
+      <Description>Some basic ass flowers</Description>
+    </Material>
+    <Material>
+      <ID>260</ID>
+      <Name>Monster Part</Name>
+      <Description>Some basic ass flowers</Description>
+    </Material>
+    <Material>
+      <ID>270</ID>
+      <Name>Liquid</Name>
+      <Description>Some basic ass flowers</Description>
+    </Material>
+    <Material>
+      <ID>280</ID>
+      <Name>Berry</Name>
+      <Description>Some basic ass flowers</Description>
+    </Material>
+    <Material>
+      <ID>290</ID>
+      <Name>Powder</Name>
+      <Description>Some basic ass flowers</Description>
+    </Material>
+    <Material>
+      <ID>2A0</ID>
+      <Name>Mushroom</Name>
+      <Description>Some basic ass flowers</Description>
+    </Material>
+    <Material>
+      <ID>2B0</ID>
+      <Name>Creature</Name>
+      <Description>Some worms 'n' shit</Description>
+    </Material>
+  </Potion>
+  <Bell>
+    <Material>
+      <ID>300</ID>
+      <Name>Bronze</Name>
+      <Description>Basic bells</Description>
+    </Material>
+  </Bell>
+  <Incantation>
+    <Material>
+      <ID>400</ID>
+      <Name>Paper</Name>
+      <Description>Basic paper</Description>
+    </Material>
+  </Incantation>
+</Materials>

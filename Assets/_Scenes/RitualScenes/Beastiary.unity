@@ -113,7 +113,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 560735845}
+  - {fileID: 374822096}
   m_Father: {fileID: 580223244}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
@@ -362,15 +362,15 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 374822092}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.0000042743454}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalPosition: {x: 0, y: 0, z: -0.0008241361}
+  m_LocalScale: {x: 75, y: 75, z: 75}
   m_Children:
   - {fileID: 1827840677}
-  m_Father: {fileID: 560735845}
-  m_RootOrder: 3
+  m_Father: {fileID: 142228133}
+  m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -7.59, y: -4}
+  m_AnchoredPosition: {x: -759.00006, y: -400}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.49999994, y: 0.50000006}
 --- !u!1 &410309168
@@ -401,7 +401,7 @@ Transform:
   m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children: []
   m_Father: {fileID: 560735845}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!102 &410309170
 TextMesh:
   serializedVersion: 3
@@ -464,7 +464,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &560735844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -482,9 +482,6 @@ MonoBehaviour:
   componentPrefab: {fileID: 175988, guid: 2728b0fc2d643e449a4030bf4f840434, type: 2}
   creatureImage: {fileID: 2019666855}
   targetCreatureButton: {fileID: 374822093}
-  xOffset: 0.25
-  yOffset: 4
-  yBetween: 1.5
 --- !u!4 &560735845
 Transform:
   m_ObjectHideFlags: 0
@@ -493,16 +490,15 @@ Transform:
   m_GameObject: {fileID: 560735843}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalScale: {x: 0.92574453, y: 0.92574453, z: 0.92574453}
   m_Children:
   - {fileID: 1832743078}
   - {fileID: 346232596}
   - {fileID: 956220921}
-  - {fileID: 374822096}
   - {fileID: 2019666857}
   - {fileID: 410309169}
-  m_Father: {fileID: 142228133}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
 --- !u!1 &580223241
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,7 +539,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -573,7 +569,7 @@ Transform:
   m_Children:
   - {fileID: 142228133}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &956220918
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,4 +895,4 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 560735845}
-  m_RootOrder: 4
+  m_RootOrder: 3

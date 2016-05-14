@@ -24,9 +24,19 @@ public class ImprovedLineRenderer : MonoBehaviour {
     private List<Vector3> vertices = new List<Vector3>();
     private List<int> triangles = new List<int>();
 
+    private bool firstUpdate = true;
+
     void Start()
     {
         GetComponent<MeshFilter>().mesh = new Mesh();
+    }
+
+    void Update()
+    {
+        if (!firstUpdate) return;
+
+        firstUpdate = false;
+        UpdateMesh();
     }
 
     void UpdateMesh()
@@ -134,7 +144,6 @@ public class ImprovedLineRenderer : MonoBehaviour {
         vertices[vertexIndex] = new Vector3(point.x + Mathf.Cos(angleOffset) * LineWeight, point.y + Mathf.Sin(angleOffset) * LineWeight, point.z);
         angleOffset -= Mathf.PI;
         vertices[vertexIndex + 1] = new Vector3(point.x + Mathf.Cos(angleOffset) * LineWeight, point.y + Mathf.Sin(angleOffset) * LineWeight, point.z);
-
     }
 
     public int Count { get { return points.Count; } }
